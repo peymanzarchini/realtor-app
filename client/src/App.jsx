@@ -1,7 +1,28 @@
+import { ToastContainer } from "react-toastify";
+import { HelmetProvider } from "react-helmet-async";
+import "react-toastify/dist/ReactToastify.css";
+
 const App = () => {
+  const helmetContext = {};
   return (
     <>
-      <h1 className="text-red-600">Hello World!</h1>
+      <HelmetProvider context={helmetContext}></HelmetProvider>
+      {/* <Header/> */}
+      <div></div>
+      {/* <Footer/> */}
+      {/* <Copyright/> */}
+      <ToastContainer
+        position={"top-right"}
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 };
