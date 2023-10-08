@@ -4,6 +4,8 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 import connectDB from "./config/database.js";
 import { fileURLToPath } from "url";
+import { setHeaders } from "./middlewares/headers.js";
+import { errorHandler } from "./middlewares/error.js";
 import path from "path";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -24,9 +26,13 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 //parser
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(express.json({ limit: "30mb" }));
+app.use(setHeaders);
 
 //static
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+
+//errorHandler
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
