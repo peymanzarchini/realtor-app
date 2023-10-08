@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Container from "../styles/Container";
-import FlexComponent from "../styles/FlexComponent";
+import Container from "../Styles/Container";
+import FlexComponent from "../Styles/FlexComponent";
 import Logo from "../../assets/logo.svg";
 import { Link, useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";

@@ -1,7 +1,21 @@
+import { Helmet } from "react-helmet-async";
+import Trend from "../../components/Trend/Trend";
+import News from "../../components/News/News";
+import People from "../../components/People/People";
+import Advertise from "../../components/Advertise/Advertise";
+
 const Home = () => {
   return (
     <>
-      <h1>Home</h1>
+      <Helmet>
+        <title>realtor</title>
+      </Helmet>
+      {/* <Hero/> */}
+      {/* <Listing/> */}
+      <Trend />
+      <News />
+      <People />
+      <Advertise />
     </>
   );
 };
