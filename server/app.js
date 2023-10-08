@@ -6,6 +6,7 @@ import connectDB from "./config/database.js";
 import { fileURLToPath } from "url";
 import { setHeaders } from "./middlewares/headers.js";
 import { errorHandler } from "./middlewares/error.js";
+import userRoutes from "./routes/userRoutes.js";
 import path from "path";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -30,6 +31,9 @@ app.use(setHeaders);
 
 //static
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+
+//routes
+app.use("/users", userRoutes);
 
 //errorHandler
 app.use(errorHandler);
