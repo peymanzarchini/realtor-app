@@ -3,6 +3,8 @@ import { HelmetProvider } from "react-helmet-async";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header/Header";
 import RoutesComponent from "./components/Routes";
+import Footer from "./components/Footer/Footer";
+import Copyright from "./components/Copyright/Copyright";
 
 const App = () => {
   const helmetContext = {};
@@ -13,8 +15,8 @@ const App = () => {
         <div>
           <RoutesComponent />
         </div>
-        {/* <Footer/> */}
-        {/* <Copyright/> */}
+        <Footer />
+        <Copyright />
         <ToastContainer
           position={"top-right"}
           autoClose={5000}
