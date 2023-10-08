@@ -52,8 +52,10 @@ const Header = () => {
                   <Link to={item.path}>{item.display}</Link>
                 </li>
               ))}
-              <li className="bg-red-700 rounded-full text-base my-1 py-3 px-8 text-white">
-                <Link to="/sign-up">Signup</Link>
+              <li className="bg-red-700 rounded-full text-base my-1 text-white cursor-pointer">
+                <Link to="/sign-up" className="block py-3 px-8">
+                  Signup
+                </Link>
               </li>
             </ul>
             <div className="bg-red-700 rounded-full my-1 py-3 px-3 text-white md:hidden">

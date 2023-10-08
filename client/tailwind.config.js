@@ -7,6 +7,7 @@ export default {
         "black-rgba": "rgba(0,0,0,0.6)",
         "black-rgba-light": "rgba(0,0,0,0.3)",
         "footer-background": "rgb(43,43,43)",
+        "main-background": "rgb(241,245,241)",
       },
       backgroundImage: {
         "Trend-image": "url('./src/assets/trends.webp')",
