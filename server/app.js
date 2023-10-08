@@ -8,6 +8,7 @@ import { setHeaders } from "./middlewares/headers.js";
 import { errorHandler } from "./middlewares/error.js";
 import userRoutes from "./routes/userRoutes.js";
 import path from "path";
+import cookieParser from "cookie-parser";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,6 +29,9 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(express.json({ limit: "30mb" }));
 app.use(setHeaders);
+
+//cookie
+app.use(cookieParser());
 
 //static
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
