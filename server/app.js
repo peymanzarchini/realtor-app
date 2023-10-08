@@ -1,6 +1,8 @@
 import express from "express";
 
 import helmet from "helmet";
+import dotenv from "dotenv";
+import connectDB from "./config/database.js";
 import { fileURLToPath } from "url";
 import path from "path";
 
@@ -8,6 +10,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+//env file
+dotenv.config({ path: "./config/.env" });
+
+//connect to database
+connectDB();
 
 //back-end security against malicious requests
 app.use(helmet());
