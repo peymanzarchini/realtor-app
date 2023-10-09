@@ -6,10 +6,13 @@ import { Formik } from "formik";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import Spinner from "../../../components/Spinner/Spinner";
+import { useDispatch } from "react-redux";
+import { signInSuccess } from "../../../redux/slices/userSlice";
 
 const Login = () => {
   const [loading, setLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTimeout(() => {
@@ -39,6 +42,7 @@ const Login = () => {
         const data = await userLogin.json();
         onSubmitProps.resetForm();
         if (data) {
+          dispatch(signInSuccess(data));
           setBtnLoading(false);
           navigate("/");
         }
