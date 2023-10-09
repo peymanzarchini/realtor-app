@@ -43,10 +43,13 @@ export const handleLoginUser = async (req, res, next) => {
       throw error;
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
     const { password: pass, ...rest } = user._doc;
     res
-      .cookie("access_token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
+      .cookie("access_token", token, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      })
       .status(200)
       .json(rest);
   } catch (err) {
