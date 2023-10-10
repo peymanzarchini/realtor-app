@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import Spinner from "../../../components/Spinner/Spinner";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../../../redux/slices/userSlice";
+import OAuth from "../../../components/Oauth/OAuth";
 
 const Login = () => {
   const [loading, setLoading] = useState(true);
@@ -106,6 +107,12 @@ const Login = () => {
                   >
                     {btnLoading ? "Loading..." : "Sign in"}
                   </button>
+                  <div className="relative flex py-1 items-center">
+                    <div className="flex-grow border-t border-gray-400"></div>
+                    <span className="flex-shrink mx-4 text-gray-400">OR</span>
+                    <div className="flex-grow border-t border-gray-400"></div>
+                  </div>
+                  <OAuth />
                 </form>
               )}
             </Formik>

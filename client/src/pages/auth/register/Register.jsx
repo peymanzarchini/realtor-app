@@ -6,6 +6,7 @@ import { registerSchema } from "../../../components/Validation/userValidation";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import Spinner from "../../../components/Spinner/Spinner";
+import OAuth from "../../../components/Oauth/OAuth";
 
 const Register = () => {
   const [loading, setLoading] = useState(true);
@@ -146,6 +147,12 @@ const Register = () => {
                   >
                     {btnLoading ? "Loading..." : "Sign up"}
                   </button>
+                  <div className="relative flex py-1 items-center">
+                    <div className="flex-grow border-t border-gray-400"></div>
+                    <span className="flex-shrink mx-4 text-gray-400">OR</span>
+                    <div className="flex-grow border-t border-gray-400"></div>
+                  </div>
+                  <OAuth />
                 </form>
               )}
             </Formik>
