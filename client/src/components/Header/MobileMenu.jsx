@@ -2,6 +2,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { BsGithub, BsFacebook, BsInstagram, BsTwitter } from "react-icons/bs";
 import Logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const MobileMenu = ({
   showMenu,
@@ -12,6 +13,8 @@ const MobileMenu = ({
   closeMenu,
   changeActive,
 }) => {
+  const user = useSelector((state) => state.user.currentUser);
+
   return (
     <>
       {showPortal && (
@@ -43,23 +46,51 @@ const MobileMenu = ({
         </div>
         <div className="mt-10 border-t-[1px] border-gray-500 w-64"></div>
         <ul className="flex flex-col space-y-5 mt-5 md:hidden">
-          {items.map((item, index) => (
-            <li
-              key={index}
-              className={`text-base mt-1 py-3 text-gray-950 transition duration-200 ${
-                changeActive(`${item.path}`) && "text-red-600 font-bold"
-              }`}
-              onClick={closeMenu}
-            >
-              <Link to={item.path}>{item.display}</Link>
-            </li>
-          ))}
-          <li
-            className="bg-red-700 rounded-full text-base my-1 py-3 text-white w-52"
-            onClick={closeMenu}
-          >
-            <Link to="/sign-up">Signup</Link>
-          </li>
+          {user ? (
+            <>
+              <li
+                className={`text-base mt-1 py-3 text-gray-400 border-b-[3px] border-b-transparent transition duration-200 ${
+                  changeActive("/") && "text-red-600 font-bold"
+                }`}
+              >
+                <Link to={"/"}>Home</Link>
+              </li>
+              <li
+                className={`text-base mt-1 py-3 text-gray-400 border-b-[3px] border-b-transparent transition duration-200 ${
+                  changeActive("/offers") && "text-red-600 font-bold"
+                }`}
+              >
+                <Link to={"/"}>About</Link>
+              </li>
+              <li
+                className={`text-base mt-1 py-3 text-gray-400 border-b-[3px] border-b-transparent transition duration-200 ${
+                  changeActive("/profile") && "text-red-600 font-bold"
+                }`}
+              >
+                <Link to={"/profile"}>Profile</Link>
+              </li>
+            </>
+          ) : (
+            <>
+              {items.map((item, index) => (
+                <li
+                  key={index}
+                  className={`text-base mt-1 py-3 text-gray-950 transition duration-200 ${
+                    changeActive(`${item.path}`) && "text-red-600 font-bold"
+                  }`}
+                  onClick={closeMenu}
+                >
+                  <Link to={item.path}>{item.display}</Link>
+                </li>
+              ))}
+              <li
+                className="bg-red-700 rounded-full text-base my-1 py-3 text-white w-52"
+                onClick={closeMenu}
+              >
+                <Link to="/sign-up">Signup</Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </>
