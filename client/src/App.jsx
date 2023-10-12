@@ -9,7 +9,7 @@ import Copyright from "./components/Copyright/Copyright";
 const App = () => {
   const helmetContext = {};
   return (
-    <>
+    <div className="min-h-screen grid grid-rows-[auto_1fr_auto]">
       <HelmetProvider context={helmetContext}>
         <Header />
         <div>
@@ -30,7 +30,7 @@ const App = () => {
           theme="light"
         />
       </HelmetProvider>
-    </>
+    </div>
   );
 };
 
