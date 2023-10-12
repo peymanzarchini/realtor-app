@@ -4,13 +4,12 @@ import jwt from "jsonwebtoken";
 
 export const handleRegisterUser = async (req, res, next) => {
   try {
-    const { fullname, email, password, avatar } = req.body;
+    const { fullname, email, password } = req.body;
     const hashPassword = await bcrypt.hash(password, 10);
     const user = new User({
       fullname,
       email,
       password: hashPassword,
-      avatar,
     });
     const isUserExists = await User.findOne({ email });
     if (isUserExists) {
@@ -19,8 +18,8 @@ export const handleRegisterUser = async (req, res, next) => {
       throw error;
     }
 
-    const savedUser = await user.save();
-    res.status(201).json(savedUser);
+    await user.save();
+    res.status(201).json({ message: "Registration was successful" });
   } catch (err) {
     next(err);
   }

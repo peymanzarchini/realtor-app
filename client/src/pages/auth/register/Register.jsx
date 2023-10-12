@@ -24,35 +24,33 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    avatar: "",
   };
 
-  const handleSubmit = async (values, onSubmitProps) => {
+  const handleSubmit = async (values) => {
+    setBtnLoading(true);
     try {
-      setBtnLoading(true);
-      const formData = new FormData();
-      for (let value in values) {
-        formData.append(value, values[value]);
-      }
-      formData.append("avatar", values.avatar.name);
-
       const savedUserResponse = await fetch("http://localhost:5000/users/register", {
         method: "POST",
-        body: formData,
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
+      await savedUserResponse.json();
       if (savedUserResponse.status === 201) {
-        const savedUser = await savedUserResponse.json();
-        onSubmitProps.resetForm();
-        if (savedUser) {
-          setLoading(false);
-          navigate("/sign-in");
-        }
+        navigate("/sign-in");
         toast.success("Registration was successful");
         setLoading(false);
       }
+
+      if (savedUserResponse.status === 400) {
+        toast.error("A user has registered with this email");
+        setBtnLoading(false);
+      }
     } catch (err) {
       toast.error("There was a problem with the registration process, please register again");
+      setBtnLoading(false);
     }
   };
 
@@ -126,20 +124,6 @@ const Register = () => {
                   />
                   {touched.confirmPassword && errors.confirmPassword ? (
                     <div className="text-red-600 text-base">{errors.confirmPassword}</div>
-                  ) : null}
-                  <input
-                    type="file"
-                    name="avatar"
-                    accept="image/png, image/jpg, image/jpeg"
-                    className="border p-3 rounded-lg bg-white"
-                    onChange={(e) => {
-                      if (!e.target.files) return;
-                      setFieldValue("avatar", e.target.files[0]);
-                    }}
-                    onBlur={handleBlur}
-                  />
-                  {touched.avatar && errors.avatar ? (
-                    <div className="text-red-600 text-base">{errors.avatar}</div>
                   ) : null}
                   <button
                     type="submit"
