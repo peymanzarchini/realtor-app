@@ -16,7 +16,7 @@ const Header = () => {
 
   const navLink = [
     { display: "Home", path: "/" },
-    { display: "Offers", path: "/offers" },
+    { display: "About", path: "/about" },
     { display: "Signin", path: "/sign-in" },
   ];
 
@@ -54,16 +54,16 @@ const Header = () => {
                   </li>
                   <li
                     className={`text-base mt-1 py-3 text-gray-400 border-b-[3px] border-b-transparent transition duration-200 ${
-                      handleChangeActiveClasses("/offers") &&
+                      handleChangeActiveClasses("/about") &&
                       "text-gray-950 !border-b-red-500 font-bold"
                     }`}
                   >
-                    <Link to={"/offers"}>About</Link>
+                    <Link to={"/about"}>About</Link>
                   </li>
                   <li>
                     <Link to={"/profile"}>
                       <img
-                        src={user?.avatar}
+                        src={user.avatar}
                         alt="avatar"
                         className="rounded-full h-10 object-cover"
                       />

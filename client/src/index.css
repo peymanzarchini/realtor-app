@@ -9,6 +9,7 @@ body,
 #root {
   font-family: "DM Sans", sans-serif;
   background-color: rgb(241, 245, 241);
+  overflow-x: hidden;
 }
 
 @media only screen and (max-width: 480px) {

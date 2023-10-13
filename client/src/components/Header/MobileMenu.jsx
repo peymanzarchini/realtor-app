@@ -53,22 +53,31 @@ const MobileMenu = ({
                   changeActive("/") && "text-red-600 font-bold"
                 }`}
               >
-                <Link to={"/"}>Home</Link>
+                <Link to={"/"} onClick={closeMenu}>
+                  Home
+                </Link>
               </li>
               <li
                 className={`text-base mt-1 py-3 text-gray-400 border-b-[3px] border-b-transparent transition duration-200 ${
-                  changeActive("/offers") && "text-red-600 font-bold"
+                  changeActive("/about") && "text-red-600 font-bold"
                 }`}
               >
-                <Link to={"/"}>About</Link>
+                <Link to={"/about"} onClick={closeMenu}>
+                  About
+                </Link>
               </li>
               <li
                 className={`text-base mt-1 py-3 text-gray-400 border-b-[3px] border-b-transparent transition duration-200 ${
                   changeActive("/profile") && "text-red-600 font-bold"
                 }`}
               >
-                <Link to={"/profile"}>Profile</Link>
+                <Link to={"/profile"} onClick={closeMenu}>
+                  Profile
+                </Link>
               </li>
+              <button className="text-base mt-1 py-3 text-white border-b-[3px] border-b-transparent transition duration-200 cursor-pointer font-bold w-[250px] block bg-red-700 rounded-lg">
+                Sign out
+              </button>
             </>
           ) : (
             <>
