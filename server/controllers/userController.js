@@ -84,3 +84,34 @@ export const handleGoogleAuth = async (req, res, next) => {
     next(err);
   }
 };
+
+export const updateUser = async (req, res, next) => {
+  try {
+    if (req.user.id !== req.params.id) {
+      const error = new Error("You can only update your own account!");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    if (req.body.password) {
+      req.body.password = bcrypt.hash(req.body.password, 10);
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          fullname: req.body.fullname,
+          email: req.body.email,
+          password: req.body.password,
+          avatar: req.body.avatar,
+        },
+      },
+      { new: true }
+    );
+    const { password, ...rest } = updatedUser._doc;
+    res.status(200).json(rest);
+  } catch (err) {
+    next(err);
+  }
+};
