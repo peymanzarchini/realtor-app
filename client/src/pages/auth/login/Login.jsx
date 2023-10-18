@@ -39,6 +39,18 @@ const Login = () => {
         },
         credentials: "include",
       });
+
+      if (userLogin.status === 404) {
+        toast.error("User not found");
+        onSubmitProps.resetForm();
+        setBtnLoading(false);
+      }
+
+      if (userLogin.status === 401) {
+        toast.error("Wrong credentials!");
+        setBtnLoading(false);
+      }
+
       if (userLogin.status === 200) {
         const data = await userLogin.json();
         onSubmitProps.resetForm();
