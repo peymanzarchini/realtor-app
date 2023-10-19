@@ -2,9 +2,10 @@ import { useSelector } from "react-redux";
 import Container from "../../components/Styles/Container";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateUserSuccess } from "../../redux/slices/userSlice";
+import { deleteUserSuccess, updateUserSuccess } from "../../redux/slices/userSlice";
 import { toast } from "react-toastify";
 import ProgressBar from "react-customizable-progressbar";
+import { confirmAlert } from "react-confirm-alert";
 
 const Profile = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -68,6 +69,53 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteUser = async () => {
+    try {
+      const res = await fetch(`http://localhost:5000/users/delete/${user._id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      const data = await res.json();
+      if (data) {
+        dispatch(deleteUserSuccess(data));
+        toast.success("User deleted successfully");
+      }
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  const modalDelete = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className="bg-slate-600 p-4 border border-solid border-sky-500 rounded-xl">
+            <h1 className="text-yellow-500 mb-1">Delete user</h1>
+            <p className="text-white">{`Are you sure you want to delete ${user.fullname}?`}</p>
+            <div className="flex items-center gap-5 mt-3">
+              <button
+                className="bg-green-500 text-white py-2 px-8 rounded-lg hover:bg-green-700"
+                onClick={() => {
+                  handleDeleteUser();
+                  onClose();
+                }}
+              >
+                Yes
+              </button>
+              <button
+                className="bg-red-500 text-white py-2 px-8 rounded-lg hover:bg-red-700"
+                onClick={onClose}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        );
+      },
+    });
+  };
+
   return (
     <section className="py-10">
       <h1 className="text-3xl text-center font-semibold">Profile</h1>
@@ -111,12 +159,19 @@ const Profile = () => {
             onChange={handleChange}
           />
           <button type="submit" className="bg-slate-700 text-white p-3 rounded-lg hover:opacity-95">
-            update
+            Update
           </button>
         </form>
-        <section className="flex justify-between mt-4">
-          <div className="text-red-600 cursor-pointer font-bold">Delete Account</div>
-          <div className="text-red-600 cursor-pointer font-bold">Sign out</div>
+        <section className="flex justify-center sm:justify-between mt-4 flex-wrap gap-5 sm:gap-0">
+          <div
+            className="text-white cursor-pointer font-bold bg-red-700 rounded-full text-base py-3 px-8"
+            onClick={modalDelete}
+          >
+            Delete Account
+          </div>
+          <div className="text-white cursor-pointer font-bold bg-red-700 rounded-full text-base py-3 px-8">
+            Sign out
+          </div>
         </section>
       </Container>
     </section>
