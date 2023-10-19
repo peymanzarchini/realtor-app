@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateUserSuccess } from "../../redux/slices/userSlice";
 import { toast } from "react-toastify";
+import ProgressBar from "react-customizable-progressbar";
 
 const Profile = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -14,19 +15,31 @@ const Profile = () => {
   const fileRef = useRef(null);
 
   const [getUser, setUser] = useState({});
+  const [filePerc, setFilePerc] = useState(0);
+  const [showProgress, setShowProgress] = useState(false);
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", preset_key);
-    fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => setUser({ ...getUser, avatar: data.secure_url }))
-      .catch((err) => console.log(err));
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`);
+
+    xhr.addEventListener("load", function () {
+      setUser({ ...getUser, avatar: JSON.parse(xhr.responseText).secure_url });
+    });
+
+    xhr.upload.addEventListener("progress", function (e) {
+      if (e.lengthComputable) {
+        let percent = parseInt((e.loaded / e.total) * 100);
+        setShowProgress(true);
+        setFilePerc(percent);
+      }
+    });
+
+    xhr.send(formData);
   };
 
   const handleChange = (e) => {
@@ -48,6 +61,7 @@ const Profile = () => {
       if (data) {
         dispatch(updateUserSuccess(data));
         toast.success("User is updated successfully!");
+        setShowProgress(false);
       }
     } catch (err) {
       toast.error(err);
@@ -66,6 +80,11 @@ const Profile = () => {
             className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
             onClick={() => fileRef.current.click()}
           />
+          {showProgress ? (
+            <div className="self-center">
+              <ProgressBar radius={100} progress={filePerc} />
+            </div>
+          ) : null}
           <input
             type="text"
             name="fullname"
