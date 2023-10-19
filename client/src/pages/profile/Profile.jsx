@@ -2,14 +2,20 @@ import { useSelector } from "react-redux";
 import Container from "../../components/Styles/Container";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { deleteUserSuccess, updateUserSuccess } from "../../redux/slices/userSlice";
+import {
+  deleteUserSuccess,
+  signOutUserSuccess,
+  updateUserSuccess,
+} from "../../redux/slices/userSlice";
 import { toast } from "react-toastify";
 import ProgressBar from "react-customizable-progressbar";
 import { confirmAlert } from "react-confirm-alert";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const preset_key = "images_preset";
   const cloud_name = "duei0blsa";
@@ -116,6 +122,21 @@ const Profile = () => {
     });
   };
 
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/users/signout", {
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data) {
+        dispatch(signOutUserSuccess(data));
+        navigate("/sign-in");
+      }
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
   return (
     <section className="py-10">
       <h1 className="text-3xl text-center font-semibold">Profile</h1>
@@ -169,7 +190,10 @@ const Profile = () => {
           >
             Delete Account
           </div>
-          <div className="text-white cursor-pointer font-bold bg-red-700 rounded-full text-base py-3 px-8">
+          <div
+            className="text-white cursor-pointer font-bold bg-red-700 rounded-full text-base py-3 px-8"
+            onClick={handleSignOut}
+          >
             Sign out
           </div>
         </section>

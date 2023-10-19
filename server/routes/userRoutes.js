@@ -5,6 +5,7 @@ import {
   handleLoginUser,
   handleRegisterUser,
   updateUser,
+  signout,
 } from "../controllers/userController.js";
 import { verifyToken } from "../middlewares/verifyUser.js";
 
@@ -15,5 +16,6 @@ router.post("/login", handleLoginUser);
 router.post("/google", handleGoogleAuth);
 router.post("/update/:id", verifyToken, updateUser);
 router.delete("/delete/:id", verifyToken, deleteUser);
+router.get("/signout", signout);
 
 export default router;

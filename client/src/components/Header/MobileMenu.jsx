@@ -1,8 +1,10 @@
 import { AiOutlineClose } from "react-icons/ai";
 import { BsGithub, BsFacebook, BsInstagram, BsTwitter } from "react-icons/bs";
 import Logo from "../../assets/logo.svg";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { signOutUserSuccess } from "../../redux/slices/userSlice";
+import { toast } from "react-toastify";
 
 const MobileMenu = ({
   showMenu,
@@ -14,6 +16,21 @@ const MobileMenu = ({
   changeActive,
 }) => {
   const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/users/signout");
+      const data = await res.json();
+      if (data) {
+        dispatch(signOutUserSuccess(data));
+        navigate("/sign-in");
+      }
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
 
   return (
     <>
@@ -75,7 +92,10 @@ const MobileMenu = ({
                   Profile
                 </Link>
               </li>
-              <button className="text-base mt-1 py-3 text-white border-b-[3px] border-b-transparent transition duration-200 cursor-pointer font-bold w-[250px] block bg-red-700 rounded-lg">
+              <button
+                className="text-base mt-1 py-3 text-white border-b-[3px] border-b-transparent transition duration-200 cursor-pointer font-bold w-[250px] block bg-red-700 rounded-lg"
+                onClick={handleSignOut}
+              >
                 Sign out
               </button>
             </>
