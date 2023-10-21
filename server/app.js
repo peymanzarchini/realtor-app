@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import { setHeaders } from "./middlewares/headers.js";
 import { errorHandler } from "./middlewares/error.js";
 import userRoutes from "./routes/userRoutes.js";
+import listingRoutes from "./routes/listingRoutes.js";
 import path from "path";
 import cookieParser from "cookie-parser";
 
@@ -38,6 +39,7 @@ app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 //routes
 app.use("/users", userRoutes);
+app.use("/listing", listingRoutes);
 
 //errorHandler
 app.use(errorHandler);
