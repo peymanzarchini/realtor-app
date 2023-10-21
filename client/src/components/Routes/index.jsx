@@ -5,6 +5,7 @@ import Register from "../../pages/auth/register/Register";
 import Login from "../../pages/auth/login/Login";
 import PrivateRoute from "../Private/PrivateRoute";
 import Profile from "../../pages/profile/Profile";
+import CreateListing from "../../pages/listing/CreateListing";
 import { useSelector } from "react-redux";
 
 const RoutesComponent = () => {
@@ -19,6 +20,7 @@ const RoutesComponent = () => {
         <Route path="/sign-up" element={!user ? <Register /> : <Navigate to={"/"} />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/create-listing" element={<CreateListing />} />
         </Route>
       </Routes>
     </>

@@ -54,7 +54,7 @@ const listingSchema = new mongoose.Schema(
       type: Number,
       require: true,
     },
-    lon: {
+    long: {
       type: Number,
       required: true,
     },

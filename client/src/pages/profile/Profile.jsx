@@ -10,7 +10,7 @@ import {
 import { toast } from "react-toastify";
 import ProgressBar from "react-customizable-progressbar";
 import { confirmAlert } from "react-confirm-alert";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -182,6 +182,12 @@ const Profile = () => {
           <button type="submit" className="bg-slate-700 text-white p-3 rounded-lg hover:opacity-95">
             Update
           </button>
+          <Link
+            to={`/create-listing`}
+            className="bg-green-700 text-white p-3 rounded-lg text-center hover:opacity-95"
+          >
+            Create listing
+          </Link>
         </form>
         <section className="flex justify-center sm:justify-between mt-4 flex-wrap gap-5 sm:gap-0">
           <div
