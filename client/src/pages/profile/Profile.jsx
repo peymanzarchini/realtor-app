@@ -310,7 +310,9 @@ const Profile = () => {
                           <Menu.Item>
                             <div className="group flex w-full items-center rounded-md cursor-pointer gap-2 hover:bg-slate-500">
                               <BiEdit fontSize={25} />
-                              <p className="text-base">Edit</p>
+                              <Link to={`/update-listing/${listing._id}`}>
+                                <p className="text-base">Edit</p>
+                              </Link>
                             </div>
                           </Menu.Item>
                         </div>
