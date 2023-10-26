@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import Listing from "../models/listing.js";
 
 export const handleRegisterUser = async (req, res, next) => {
   try {
@@ -135,6 +136,21 @@ export const signout = async (req, res, next) => {
   try {
     res.clearCookie("access_token");
     res.status(200).json("User has been logged out!");
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getUserListings = async (req, res, next) => {
+  try {
+    if (req.user.id === req.params.id) {
+      const listings = await Listing.find({ userRef: req.params.id });
+      res.status(200).json(listings);
+    } else {
+      const error = new Error("You can only view your own listings!");
+      error.statusCode = 401;
+      throw error;
+    }
   } catch (err) {
     next(err);
   }

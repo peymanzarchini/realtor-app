@@ -72,7 +72,6 @@ const CreateListing = () => {
         });
 
         const data = await res.json();
-        console.log(data);
         promises.push(data.secure_url);
       }
 

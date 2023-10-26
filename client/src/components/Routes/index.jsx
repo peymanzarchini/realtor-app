@@ -7,6 +7,7 @@ import PrivateRoute from "../Private/PrivateRoute";
 import Profile from "../../pages/profile/Profile";
 import CreateListing from "../../pages/listing/CreateListing";
 import { useSelector } from "react-redux";
+import Listing from "../../pages/listing/Listing";
 
 const RoutesComponent = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -18,6 +19,7 @@ const RoutesComponent = () => {
         <Route path="/about" element={<About />} />
         <Route path="/sign-in" element={!user ? <Login /> : <Navigate to={"/"} />} />
         <Route path="/sign-up" element={!user ? <Register /> : <Navigate to={"/"} />} />
+        <Route path="/listing/:listingId" element={<Listing />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-listing" element={<CreateListing />} />

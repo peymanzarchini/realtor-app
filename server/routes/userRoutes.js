@@ -6,6 +6,7 @@ import {
   handleRegisterUser,
   updateUser,
   signout,
+  getUserListings,
 } from "../controllers/userController.js";
 import { verifyToken } from "../middlewares/verifyUser.js";
 
@@ -17,5 +18,6 @@ router.post("/google", handleGoogleAuth);
 router.post("/update/:id", verifyToken, updateUser);
 router.delete("/delete/:id", verifyToken, deleteUser);
 router.get("/signout", signout);
+router.get("/listings/:id", verifyToken, getUserListings);
 
 export default router;
