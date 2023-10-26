@@ -35,6 +35,8 @@ const Profile = () => {
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
 
+  console.log(userListings);
+
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
@@ -108,7 +110,9 @@ const Profile = () => {
         return (
           <div className="bg-slate-600 p-4 border border-solid border-sky-500 rounded-xl">
             <h1 className="text-yellow-500 mb-1">Delete user</h1>
-            <p className="text-white">{`Are you sure you want to delete ${user.fullname}?`}</p>
+            <p className="text-white">{`Are you sure you want to delete ${
+              user && user.fullname
+            }?`}</p>
             <div className="flex items-center gap-5 mt-3">
               <button
                 className="bg-green-500 text-white py-2 px-8 rounded-lg hover:bg-green-700"
@@ -165,6 +169,24 @@ const Profile = () => {
     } catch (error) {
       setShowListingsError(true);
       setLoading(false);
+    }
+  };
+
+  const handleDeleteListing = async (listingId) => {
+    try {
+      const res = await fetch(`http://localhost:5000/listing/delete/${listingId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        toast.error(data.message);
+        return;
+      }
+
+      setUserListings((prev) => prev.filter((listing) => listing._id !== listingId));
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
@@ -296,7 +318,12 @@ const Profile = () => {
                           <Menu.Item>
                             <div className="group flex w-full items-center rounded-md cursor-pointer gap-2 hover:bg-slate-500">
                               <AiTwotoneDelete fontSize={25} />
-                              <p className="text-base">Delete</p>
+                              <p
+                                className="text-base"
+                                onClick={() => handleDeleteListing(listing._id)}
+                              >
+                                Delete
+                              </p>
                             </div>
                           </Menu.Item>
                         </div>
@@ -311,18 +338,6 @@ const Profile = () => {
                       </Menu.Items>
                     </Transition>
                   </Menu>
-
-                  {/* <div className="flex flex-col item-center">
-                    <button
-                      // onClick={() => handleListingDelete(listing._id)}
-                      className="text-red-700"
-                    >
-                      Delete
-                    </button>
-                    <Link to={`/update-listing/${listing._id}`}>
-                      <button className="text-green-700">Edit</button>
-                    </Link>
-                  </div> */}
                 </div>
               ))}
             </div>
