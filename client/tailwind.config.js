@@ -16,6 +16,9 @@ export default {
         dmsans: ["DM Sans", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"],
       },
+      screens: {
+        xs: { max: "450px" },
+      },
     },
   },
   // eslint-disable-next-line no-undef

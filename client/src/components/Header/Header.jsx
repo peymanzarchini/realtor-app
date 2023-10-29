@@ -1,11 +1,12 @@
 import { useState } from "react";
 import Container from "../Styles/Container";
 import FlexComponent from "../Styles/FlexComponent";
-import Logo from "../../assets/logo.svg";
+import miniLogo from "../../assets/minilogo.png";
 import { Link, useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import MobileMenu from "./MobileMenu";
 import { useSelector } from "react-redux";
+import { FaSearch } from "react-icons/fa";
 
 const Header = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -39,9 +40,39 @@ const Header = () => {
       <header className="w-[100%] bg-white border-b shadow-sm sticky top-0 z-40">
         <Container>
           <FlexComponent>
-            <div>
-              <img src={Logo} alt="logo" className="h-5 cursor-pointer" />
+            <div className="flex items-center gap-5">
+              <img src={miniLogo} alt="logo" className="h-10 cursor-pointer" />
+              <form
+                // onSubmit={handleSubmit}
+                className="bg-slate-100 p-1 rounded-lg items-center hidden md:flex"
+              >
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="bg-transparent focus:ring-0 hidden md:flex md:w-48 lg:w-64 border-none focus:border-none"
+                  // value={searchTerm}
+                  // onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <button>
+                  <FaSearch className="text-slate-600 mr-2" />
+                </button>
+              </form>
             </div>
+            <form
+              // onSubmit={handleSubmit}
+              className="bg-slate-100 p-1 rounded-lg flex items-center md:hidden"
+            >
+              <input
+                type="text"
+                placeholder="Search..."
+                className="bg-transparent focus:ring-0 xs:w-28 sm:w-96 border-none focus:border-none"
+                // value={searchTerm}
+                // onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <button>
+                <FaSearch className="text-slate-600 mr-2" />
+              </button>
+            </form>
             <ul className={`hidden md:flex md:items-center md:space-x-10`}>
               {user ? (
                 <>
