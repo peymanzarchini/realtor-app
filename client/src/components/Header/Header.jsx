@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Container from "../Styles/Container";
 import FlexComponent from "../Styles/FlexComponent";
 import miniLogo from "../../assets/minilogo.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import MobileMenu from "./MobileMenu";
 import { useSelector } from "react-redux";
@@ -11,15 +11,33 @@ import { FaSearch } from "react-icons/fa";
 const Header = () => {
   const user = useSelector((state) => state.user.currentUser);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [showMenu, setShowMenu] = useState(false);
   const [showPortal, setShowPortal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const navLink = [
     { display: "Home", path: "/" },
     { display: "About", path: "/about" },
     { display: "Signin", path: "/sign-in" },
   ];
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
 
   const handleShowMenu = () => {
     setShowPortal(!showPortal);
@@ -43,15 +61,15 @@ const Header = () => {
             <div className="flex items-center gap-5">
               <img src={miniLogo} alt="logo" className="h-10 cursor-pointer" />
               <form
-                // onSubmit={handleSubmit}
+                onSubmit={handleSubmit}
                 className="bg-slate-100 p-1 rounded-lg items-center hidden md:flex"
               >
                 <input
                   type="text"
                   placeholder="Search..."
                   className="bg-transparent focus:ring-0 hidden md:flex md:w-48 lg:w-64 border-none focus:border-none"
-                  // value={searchTerm}
-                  // onChange={(e) => setSearchTerm(e.target.value)}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <button>
                   <FaSearch className="text-slate-600 mr-2" />
@@ -59,15 +77,15 @@ const Header = () => {
               </form>
             </div>
             <form
-              // onSubmit={handleSubmit}
+              onSubmit={handleSubmit}
               className="bg-slate-100 p-1 rounded-lg flex items-center md:hidden"
             >
               <input
                 type="text"
                 placeholder="Search..."
                 className="bg-transparent focus:ring-0 xs:w-28 sm:w-96 border-none focus:border-none"
-                // value={searchTerm}
-                // onChange={(e) => setSearchTerm(e.target.value)}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
               <button>
                 <FaSearch className="text-slate-600 mr-2" />

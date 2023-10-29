@@ -9,6 +9,7 @@ import CreateListing from "../../pages/listing/CreateListing";
 import { useSelector } from "react-redux";
 import Listing from "../../pages/listing/Listing";
 import UpdateListing from "../../pages/listing/UpdateListing";
+import Search from "../../pages/search/Search";
 
 const RoutesComponent = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -20,6 +21,7 @@ const RoutesComponent = () => {
         <Route path="/about" element={<About />} />
         <Route path="/sign-in" element={!user ? <Login /> : <Navigate to={"/"} />} />
         <Route path="/sign-up" element={!user ? <Register /> : <Navigate to={"/"} />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/listing/:listingId" element={<Listing />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
