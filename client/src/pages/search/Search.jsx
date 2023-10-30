@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingItem from "../../components/ListingItem/ListingItem";
+import ProductSpinner from "../../components/Spinner/productSpinner";
 
 const Search = () => {
   const [sidebardata, setSidebardata] = useState({
@@ -67,6 +68,7 @@ const Search = () => {
     };
 
     fetchListings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
   const handleChange = (e) => {
@@ -226,7 +228,11 @@ const Search = () => {
           {!loading && listings.length === 0 && (
             <p className="text-xl text-slate-700">No listing found!</p>
           )}
-          {loading && <p className="text-xl text-slate-700 text-center w-full">Loading...</p>}
+          {loading && (
+            <div className="text-xl text-slate-700 text-center w-full">
+              <ProductSpinner />
+            </div>
+          )}
 
           {!loading &&
             listings &&

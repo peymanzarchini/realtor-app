@@ -4,6 +4,7 @@ import News from "../../components/News/News";
 import People from "../../components/People/People";
 import Advertise from "../../components/Advertise/Advertise";
 import Hero from "../../components/Hero/Hero";
+import Popular from "../../components/Popular/Popular";
 
 const Home = () => {
   return (
@@ -12,7 +13,7 @@ const Home = () => {
         <title>realtor</title>
       </Helmet>
       <Hero />
-      {/* <Listing/> */}
+      <Popular />
       <Trend />
       <News />
       <People />
