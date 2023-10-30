@@ -240,15 +240,15 @@ const Profile = () => {
             Create listing
           </Link>
         </form>
-        <section className="flex justify-center sm:justify-between mt-4 flex-wrap gap-5 sm:gap-0">
+        <section className="flex justify-center sm:justify-between mt-5 flex-wrap gap-5 sm:gap-0">
           <div
-            className="text-white cursor-pointer font-bold bg-red-700 rounded-full text-base py-3 px-8"
+            className="text-red-700 cursor-pointer font-bold rounded-full text-base"
             onClick={modalDelete}
           >
             Delete Account
           </div>
           <div
-            className="text-white cursor-pointer font-bold bg-red-700 rounded-full text-base py-3 px-8"
+            className="text-red-700 cursor-pointer font-bold rounded-full text-base"
             onClick={handleSignOut}
           >
             Sign out

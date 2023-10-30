@@ -36,9 +36,9 @@ const Popular = () => {
   return (
     <section className="py-20 w-[100%]">
       <Container>
-        <ul className="mt-4 flex w-[97%] flex-wrap items-center justify-center gap-9 rounded-md bg-gray-300 p-7 md:flex-nowrap">
+        <ul className="mt-4 flex w-[97%] flex-wrap items-center justify-center gap-4 rounded-md bg-gray-300 p-7 md:flex-nowrap">
           <li
-            className={`cursor-pointer text-slate-700 font-semibold py-1 px-2 rounded-md ${
+            className={`cursor-pointer text-slate-700 text-lg font-semibold py-1 px-2 rounded-md ${
               category === "Offer" ? "activeElement" : ""
             }`}
             onClick={() => {
@@ -49,7 +49,7 @@ const Popular = () => {
             Offer
           </li>
           <li
-            className={`cursor-pointer text-slate-700 font-semibold py-1 px-2 rounded-md ${
+            className={`cursor-pointer text-slate-700 text-lg font-semibold py-1 px-2 rounded-md ${
               category === "Rent" ? "activeElement" : ""
             }`}
             onClick={() => {
@@ -60,7 +60,7 @@ const Popular = () => {
             Rent
           </li>
           <li
-            className={`cursor-pointer text-slate-700 font-semibold py-1 px-2 rounded-md ${
+            className={`cursor-pointer text-slate-700 text-lg font-semibold py-1 px-2 rounded-md ${
               category === "Sale" ? "activeElement" : ""
             }`}
             onClick={() => {
