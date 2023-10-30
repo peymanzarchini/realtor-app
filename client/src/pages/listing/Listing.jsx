@@ -24,8 +24,6 @@ const Listing = () => {
 
   SwiperCore.use([Navigation]);
 
-  console.log(openModalLogin);
-
   useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -137,8 +135,7 @@ const Listing = () => {
               </ul>
               <div>
                 <MapContainer
-                  // center={[listing.lat, listing.long]}
-                  center={[51.505, -0.09]}
+                  center={[listing.lat, listing.long]}
                   zoom={13}
                   scrollWheelZoom={false}
                   className="z-40"
@@ -147,7 +144,7 @@ const Listing = () => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
-                  <Marker position={[51.505, -0.09]}>
+                  <Marker position={[listing.lat, listing.long]}>
                     <Popup>{listing.address}</Popup>
                   </Marker>
                 </MapContainer>
@@ -181,5 +178,3 @@ const Listing = () => {
 };
 
 export default Listing;
-
-//&& listing.userRef !== user._id && !contact &&

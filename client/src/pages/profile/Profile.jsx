@@ -35,8 +35,6 @@ const Profile = () => {
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
 
-  console.log(userListings);
-
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
