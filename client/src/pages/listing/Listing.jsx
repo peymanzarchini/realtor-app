@@ -6,11 +6,11 @@ import { useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import { FaBath, FaBed, FaChair, FaMapMarkerAlt, FaParking, FaShare } from "react-icons/fa";
-import Contact from "../../components/Contact/Contact";
+import Contact from "../../components/contact/Contact";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import Container from "../../components/Styles/Container";
-import ModalAuth from "../../components/Oauth/ModalAuth";
+import Container from "../../components/styles/Container";
+import ModalAuth from "../../components/oauth/ModalAuth";
 
 const Listing = () => {
   const user = useSelector((state) => state.user.currentUser);

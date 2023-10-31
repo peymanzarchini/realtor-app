@@ -1,9 +1,9 @@
-import Container from "../Styles/Container";
-import FlexComponent from "../Styles/FlexComponent";
+import Container from "../styles/Container";
+import FlexComponent from "../styles/FlexComponent";
 import Logo from "../../assets/logo.svg";
 import { BsGithub, BsFacebook, BsInstagram, BsTwitter } from "react-icons/bs";
-import Links from "../Links";
-import Store from "../Store";
+import Links from "../links";
+import Store from "../store";
 
 const Footer = () => {
   return (

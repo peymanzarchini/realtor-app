@@ -1,14 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import SigninPhoto from "../../../assets/signin.webp";
-import Container from "../../../components/Styles/Container";
-import { loginSchema } from "../../../components/Validation/userValidation";
+import Container from "../../../components/styles/Container";
+import { loginSchema } from "../../../components/validation/userValidation";
 import { Formik } from "formik";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import Spinner from "../../../components/Spinner/Spinner";
+import Spinner from "../../../components/spinner/Spinner";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../../../redux/slices/userSlice";
-import OAuth from "../../../components/Oauth/OAuth";
+import OAuth from "../../../components/oauth/OAuth";
 
 const Login = () => {
   const [loading, setLoading] = useState(true);

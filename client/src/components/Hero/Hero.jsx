@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Container from "../Styles/Container";
-import FlexComponent from "../Styles/FlexComponent";
+import Container from "../styles/Container";
+import FlexComponent from "../styles/FlexComponent";
 import hero from "../../assets/hero.png";
 import cash from "../../assets/cash.svg";
 import spot from "../../assets/spot.svg";

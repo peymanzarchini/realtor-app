@@ -1,4 +1,4 @@
-import Container from "../Styles/Container";
+import Container from "../styles/Container";
 
 const Trend = () => {
   return (

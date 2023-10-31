@@ -3,7 +3,7 @@ import Home from "../../pages/home/Home";
 import About from "../../pages/about/About";
 import Register from "../../pages/auth/register/Register";
 import Login from "../../pages/auth/login/Login";
-import PrivateRoute from "../Private/PrivateRoute";
+import PrivateRoute from "../private/PrivateRoute";
 import Profile from "../../pages/profile/Profile";
 import CreateListing from "../../pages/listing/CreateListing";
 import { useSelector } from "react-redux";

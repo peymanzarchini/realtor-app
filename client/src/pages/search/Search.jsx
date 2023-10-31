@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ListingItem from "../../components/ListingItem/ListingItem";
-import ProductSpinner from "../../components/Spinner/productSpinner";
+import ListingItem from "../../components/listingitem/ListingItem";
+import ProductSpinner from "../../components/spinner/productSpinner";
 
 const Search = () => {
   const [sidebardata, setSidebardata] = useState({

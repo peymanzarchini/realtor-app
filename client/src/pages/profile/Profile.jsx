@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
-import Container from "../../components/Styles/Container";
+import Container from "../../components/styles/Container";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import ProgressBar from "react-customizable-progressbar";
 import { confirmAlert } from "react-confirm-alert";
 import { Link, useNavigate } from "react-router-dom";
-import ProductSpinner from "../../components/Spinner/productSpinner";
+import ProductSpinner from "../../components/spinner/productSpinner";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { BiEdit } from "react-icons/bi";
 import { AiTwotoneDelete } from "react-icons/ai";

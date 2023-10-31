@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Container from "../Styles/Container";
+import Container from "../styles/Container";
 import news1 from "../../assets/news1.jpg";
 import news2 from "../../assets/news2.jpg";
 import news3 from "../../assets/news3.jpg";

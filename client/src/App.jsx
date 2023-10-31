@@ -1,9 +1,9 @@
 import { ToastContainer } from "react-toastify";
 import { HelmetProvider } from "react-helmet-async";
-import Header from "./components/Header/Header";
-import RoutesComponent from "./components/Routes";
-import Footer from "./components/Footer/Footer";
-import Copyright from "./components/Copyright/Copyright";
+import Header from "./components/header/Header";
+import RoutesComponent from "./components/routes";
+import Footer from "./components/footer/Footer";
+import Copyright from "./components/copyright/Copyright";
 import "react-toastify/dist/ReactToastify.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
 

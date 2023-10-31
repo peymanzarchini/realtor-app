@@ -1,10 +1,10 @@
 import { Helmet } from "react-helmet-async";
-import Trend from "../../components/Trend/Trend";
-import News from "../../components/News/News";
-import People from "../../components/People/People";
-import Advertise from "../../components/Advertise/Advertise";
-import Hero from "../../components/Hero/Hero";
-import Popular from "../../components/Popular/Popular";
+import Trend from "../../components/trend/Trend";
+import News from "../../components/news/News";
+import People from "../../components/people/People";
+import Advertise from "../../components/advertise/Advertise";
+import Hero from "../../components/hero/Hero";
+import Popular from "../../components/popular/Popular";
 
 const Home = () => {
   return (

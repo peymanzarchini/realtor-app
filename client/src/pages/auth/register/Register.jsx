@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import SignupPhoto from "../../../assets/signup.webp";
-import Container from "../../../components/Styles/Container";
+import Container from "../../../components/styles/Container";
 import { Formik } from "formik";
-import { registerSchema } from "../../../components/Validation/userValidation";
+import { registerSchema } from "../../../components/validation/userValidation";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import Spinner from "../../../components/Spinner/Spinner";
-import OAuth from "../../../components/Oauth/OAuth";
+import Spinner from "../../../components/spinner/Spinner";
+import OAuth from "../../../components/oauth/OAuth";
 
 const Register = () => {
   const [loading, setLoading] = useState(true);

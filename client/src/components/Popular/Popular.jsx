@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Container from "../Styles/Container";
-import ListingItem from "../ListingItem/ListingItem";
+import Container from "../styles/Container";
+import ListingItem from "../listingitem/ListingItem";
 import { Link } from "react-router-dom";
-import ProductSpinner from "../Spinner/productSpinner";
+import ProductSpinner from "../spinner/productSpinner";
 
 const Popular = () => {
   const [category, setCategory] = useState("Offer");
