@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Container from "../Styles/Container";
-import FlexComponent from "../Styles/FlexComponent";
+import Container from "../styles/Container";
+import FlexComponent from "../styles/FlexComponent";
 import miniLogo from "../../assets/minilogo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
