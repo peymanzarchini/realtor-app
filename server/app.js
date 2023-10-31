@@ -11,8 +11,7 @@ import listingRoutes from "./routes/listingRoutes.js";
 import path from "path";
 import cookieParser from "cookie-parser";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.resolve();
 
 const app = express();
 
@@ -34,12 +33,16 @@ app.use(setHeaders);
 //cookie
 app.use(cookieParser());
 
-//static
-app.use("/assets", express.static(path.join(__dirname, "public/assets")));
-
 //routes
 app.use("/users", userRoutes);
 app.use("/listing", listingRoutes);
+
+//static
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 //errorHandler
 app.use(errorHandler);
