@@ -5,8 +5,9 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node app.js",
-    "dev": "cross-env NODE_ENV=development nodemon app.js"
+    "dev": "nodemon server/app.js",
+    "start": "node server/app.js",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "keywords": [],
   "author": "",

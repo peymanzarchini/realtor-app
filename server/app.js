@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 //env file
-dotenv.config({ path: "./config/.env" });
+dotenv.config();
 
 //connect to database
 connectDB();
