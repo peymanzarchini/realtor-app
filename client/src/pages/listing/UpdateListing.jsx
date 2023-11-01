@@ -148,7 +148,7 @@ const UpdateListing = () => {
       setFinalLoading(true);
       setError(false);
 
-      const res = await fetch(`http://localhost:5000/listing/update/${params.listingId}`, {
+      const res = await fetch(`/api/listing/update/${params.listingId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -169,6 +169,7 @@ const UpdateListing = () => {
       navigate(`/listing/${data._id}`);
       toast.success("Update listing successfully");
     } catch (err) {
+      toast.error(error.message);
       setError(error.message);
       setLoading(false);
     }
@@ -176,7 +177,7 @@ const UpdateListing = () => {
 
   return (
     <section>
-      <h1 className="text-3xl text-center font-semibold pt-5">Create listing</h1>
+      <h1 className="text-3xl text-center font-semibold pt-5">Update listing</h1>
       <Container classProps="py-5">
         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
           <div className="flex flex-col gap-4 flex-1">
@@ -397,7 +398,7 @@ const UpdateListing = () => {
               disabled={finalLoading}
               className="p-3 bg-slate-700 text-white rounded-lg hover:opacity-95 disabled:opacity-80"
             >
-              {finalLoading ? "Creating..." : "Update listing"}
+              {finalLoading ? "Updating..." : "Update listing"}
             </button>
             {error && <p className="text-red-700 text-sm">{error}</p>}
           </div>
