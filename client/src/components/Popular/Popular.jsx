@@ -3,6 +3,7 @@ import Container from "../styles/Container";
 import ListingItem from "../listingitem/ListingItem";
 import { Link } from "react-router-dom";
 import ProductSpinner from "../spinner/productSpinner";
+import { toast } from "react-toastify";
 
 const Popular = () => {
   const [category, setCategory] = useState("Offer");
@@ -11,23 +12,28 @@ const Popular = () => {
 
   useEffect(() => {
     async function changeListing() {
-      const res = await fetch("http://localhost:5000/listing/getlistings?limit=4");
-      const data = await res.json();
-      setLoading(true);
+      try {
+        const res = await fetch("http://localhost:5000/listing/getlistings?limit=4");
+        const data = await res.json();
+        setLoading(true);
 
-      if (category === "Offer") {
-        const filteredProduct = data.filter((item) => item.offer === true);
-        setAllListings(filteredProduct);
-        setLoading(false);
-      }
-      if (category === "Rent") {
-        const filteredProduct = data.filter((item) => item.type === "rent");
-        setAllListings(filteredProduct);
-        setLoading(false);
-      }
-      if (category === "Sale") {
-        const filteredProduct = data.filter((item) => item.type === "sale");
-        setAllListings(filteredProduct);
+        if (category === "Offer") {
+          const filteredProduct = data.filter((item) => item.offer === true);
+          setAllListings(filteredProduct);
+          setLoading(false);
+        }
+        if (category === "Rent") {
+          const filteredProduct = data.filter((item) => item.type === "rent");
+          setAllListings(filteredProduct);
+          setLoading(false);
+        }
+        if (category === "Sale") {
+          const filteredProduct = data.filter((item) => item.type === "sale");
+          setAllListings(filteredProduct);
+          setLoading(false);
+        }
+      } catch (err) {
+        toast.error(err.message);
         setLoading(false);
       }
     }
