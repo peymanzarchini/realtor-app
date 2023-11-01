@@ -59,7 +59,9 @@ const Header = () => {
         <Container>
           <FlexComponent>
             <div className="flex items-center gap-5">
-              <img src={miniLogo} alt="logo" className="h-10 cursor-pointer" />
+              <Link to={"/"}>
+                <img src={miniLogo} alt="logo" className="h-10 cursor-pointer" />
+              </Link>
               <form
                 onSubmit={handleSubmit}
                 className="bg-slate-100 p-1 rounded-lg items-center hidden md:flex"
