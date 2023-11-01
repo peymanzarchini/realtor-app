@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Container from "../../components/styles/Container";
-import ProductSpinner from "../../components/spinner/productSpinner";
+import ProductSpinner from "../../components/spinner/ProductSpinner";
 import Resizer from "react-image-file-resizer";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

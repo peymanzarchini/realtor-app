@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import ProgressBar from "react-customizable-progressbar";
 import { confirmAlert } from "react-confirm-alert";
 import { Link, useNavigate } from "react-router-dom";
-import ProductSpinner from "../../components/spinner/productSpinner";
+import ProductSpinner from "../../components/spinner/ProductSpinner";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { BiEdit } from "react-icons/bi";
 import { AiTwotoneDelete } from "react-icons/ai";
