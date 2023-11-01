@@ -1,4 +1,4 @@
-import spinner from "../../assets/spinner.svg";
+import spinner from "../../assets/Spinner.svg";
 
 const Spinner = () => {
   return (
