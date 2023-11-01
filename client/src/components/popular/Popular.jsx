@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Container from "../styles/Container";
 import ListingItem from "../listingitem/ListingItem";
 import { Link } from "react-router-dom";
-import ProductSpinner from "../spinner/productSpinner";
+import ProductSpinner from "../spinner/ProductSpinner";
 import { toast } from "react-toastify";
 
 const Popular = () => {
