@@ -29,7 +29,7 @@ const Register = () => {
   const handleSubmit = async (values) => {
     setBtnLoading(true);
     try {
-      const savedUserResponse = await fetch("http://localhost:5000/users/register", {
+      const savedUserResponse = await fetch("/api/users/register", {
         method: "POST",
         body: JSON.stringify(values),
         headers: {

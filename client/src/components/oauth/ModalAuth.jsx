@@ -23,7 +23,7 @@ const ModalAuth = ({ closeModal }) => {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      const userLogin = await fetch("http://localhost:5000/users/login", {
+      const userLogin = await fetch("/api/users/login", {
         method: "POST",
         body: JSON.stringify(user),
         headers: {

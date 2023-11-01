@@ -54,7 +54,7 @@ const Search = () => {
       setLoading(true);
       setShowMore(false);
       const searchQuery = urlParams.toString();
-      const res = await fetch(`http://localhost:5000/listing/getlistings?${searchQuery}`);
+      const res = await fetch(`/api/listing/getlistings?${searchQuery}`);
       const data = await res.json();
 
       if (data.length > 7) {
@@ -114,7 +114,7 @@ const Search = () => {
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
-    const res = await fetch(`http://localhost:5000/listing/getlistings?${searchQuery}`);
+    const res = await fetch(`/api/listing/getlistings?${searchQuery}`);
     const data = await res.json();
     if (data.length < 6) {
       setShowMore(false);

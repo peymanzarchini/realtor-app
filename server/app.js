@@ -28,8 +28,8 @@ app.use(setHeaders);
 app.use(cookieParser());
 
 //routes
-app.use("/users", userRoutes);
-app.use("/listing", listingRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/listing", listingRoutes);
 
 //static
 app.use(express.static(path.join(__dirname, "/client/dist")));

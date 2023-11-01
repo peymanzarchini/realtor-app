@@ -13,7 +13,7 @@ const Popular = () => {
   useEffect(() => {
     async function changeListing() {
       try {
-        const res = await fetch("http://localhost:5000/listing/getlistings?limit=4");
+        const res = await fetch("/api/listing/getlistings?limit=4");
         const data = await res.json();
         setLoading(true);
 

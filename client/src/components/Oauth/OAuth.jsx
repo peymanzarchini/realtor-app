@@ -16,7 +16,7 @@ const OAuth = () => {
 
       const result = await signInWithPopup(auth, provider);
 
-      const res = await fetch("http://localhost:5000/users/google", {
+      const res = await fetch("/api/users/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

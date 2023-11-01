@@ -56,7 +56,7 @@ const UpdateListing = () => {
   useEffect(() => {
     const fetchListing = async () => {
       const listingId = params.listingId;
-      const res = await fetch(`http://localhost:5000/listing/getlisting/${listingId}`);
+      const res = await fetch(`/api/listing/getlisting/${listingId}`);
       const data = await res.json();
       if (data.success === false) {
         console.log(data.message);

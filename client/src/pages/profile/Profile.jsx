@@ -66,7 +66,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:5000/users/update/${user._id}`, {
+      const res = await fetch(`/api/users/update/${user._id}`, {
         method: "POST",
         body: JSON.stringify(getUser),
         headers: {
@@ -87,7 +87,7 @@ const Profile = () => {
 
   const handleDeleteUser = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/users/delete/${user._id}`, {
+      const res = await fetch(`/api/users/delete/${user._id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -136,7 +136,7 @@ const Profile = () => {
 
   const handleSignOut = async () => {
     try {
-      const res = await fetch("http://localhost:5000/users/signout", {
+      const res = await fetch("/api/users/signout", {
         credentials: "include",
       });
       const data = await res.json();
@@ -153,7 +153,7 @@ const Profile = () => {
     try {
       setLoading(true);
       setShowListingsError(false);
-      const res = await fetch(`http://localhost:5000/users/listings/${user._id}`, {
+      const res = await fetch(`/api/users/listings/${user._id}`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -172,7 +172,7 @@ const Profile = () => {
 
   const handleDeleteListing = async (listingId) => {
     try {
-      const res = await fetch(`http://localhost:5000/listing/delete/${listingId}`, {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
         method: "DELETE",
         credentials: "include",
       });

@@ -132,7 +132,7 @@ const CreateListing = () => {
       setFinalLoading(true);
       setError(false);
 
-      const res = await fetch(`http://localhost:5000/listing/create`, {
+      const res = await fetch(`/api/listing/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

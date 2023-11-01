@@ -31,7 +31,7 @@ const Login = () => {
   const handleSubmit = async (values, onSubmitProps) => {
     try {
       setBtnLoading(true);
-      const userLogin = await fetch("http://localhost:5000/users/login", {
+      const userLogin = await fetch("/api/users/login", {
         method: "POST",
         body: JSON.stringify(values),
         headers: {
