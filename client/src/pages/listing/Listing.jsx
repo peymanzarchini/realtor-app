@@ -11,6 +11,10 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Container from "../../components/styles/Container";
 import ModalAuth from "../../components/oauth/ModalAuth";
+import iconMarker from "leaflet/dist/images/marker-icon.png";
+import iconRetina from "leaflet/dist/images/marker-icon-2x.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import L from "leaflet";
 
 const Listing = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -21,6 +25,12 @@ const Listing = () => {
   const [contact, setContact] = useState(false);
   const [openModalLogin, setOpenModalLogin] = useState(false);
   const params = useParams();
+
+  const icon = L.icon({
+    iconRetinaUrl: iconRetina,
+    iconUrl: iconMarker,
+    shadowUrl: iconShadow,
+  });
 
   SwiperCore.use([Navigation]);
 
@@ -144,7 +154,7 @@ const Listing = () => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
-                  <Marker position={[listing.lat, listing.long]}>
+                  <Marker position={[listing.lat, listing.long]} icon={icon}>
                     <Popup>{listing.address}</Popup>
                   </Marker>
                 </MapContainer>
