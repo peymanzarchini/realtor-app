@@ -10,7 +10,7 @@ export default {
         "main-background": "rgb(241,245,241)",
       },
       backgroundImage: {
-        "Trend-image": "url('./src/assets/trends.webp')",
+        "Trend-image": "url('/src/assets/trends.webp')",
       },
       fontFamily: {
         dmsans: ["DM Sans", "sans-serif"],
