@@ -1,6 +1,5 @@
 import express from "express";
 
-import helmet from "helmet";
 import dotenv from "dotenv";
 import connectDB from "./config/database.js";
 import { setHeaders } from "./middlewares/headers.js";
