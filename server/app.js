@@ -3,7 +3,6 @@ import express from "express";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import connectDB from "./config/database.js";
-import { fileURLToPath } from "url";
 import { setHeaders } from "./middlewares/headers.js";
 import { errorHandler } from "./middlewares/error.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -20,10 +19,6 @@ dotenv.config();
 
 //connect to database
 connectDB();
-
-//back-end security against malicious requests
-app.use(helmet());
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 //parser
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
