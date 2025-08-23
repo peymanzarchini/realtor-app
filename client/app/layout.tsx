@@ -27,7 +27,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${dm_sans.className} antialiased bg-[#f9f9f9]`}>{children}</body>
+      <body className={`${dm_sans.className} antialiased bg-[#f9f9f9]`}>
+        <main className="min-h-[calc(100vh-140px)] flex flex-col items-center justify-center">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
