@@ -1,1 +1,53 @@
 @import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --secondary-bg: #f1f5f9;
+  --border: #e2e8f0;
+  --text-primary: #001233;
+  --text-secondary: #5c677d;
+  --primary: #0077b6;
+  --primary-hover: #023e7d;
+  --text-on-primary: #ffffff;
+
+  --color-background: var(--background);
+  --color-secondary: var(--secondary-bg);
+  --color-border: var(--border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-text-on-primary: var(--text-on-primary);
+}
+
+.dark {
+  --background: #051923;
+  --secondary-bg: #002855;
+  --border: #33415c;
+  --text-primary: #caf0f8;
+  --text-secondary: #979dac;
+  --primary: #00b4d8;
+  --primary-hover: #90e0ef;
+  --text-on-primary: #001233;
+
+  --color-background: var(--background);
+  --color-secondary: var(--secondary-bg);
+  --color-border: var(--border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-text-on-primary: var(--text-on-primary);
+}
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-background: var(--color-background);
+  --color-secondary: var(--color-secondary);
+  --color-border: var(--color-border);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-text-on-primary: var(--color-text-on-primary);
+}
