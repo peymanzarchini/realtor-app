@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ui/theme/theme-provider";
+import Header from "@/features/header";
 
 const dm_sans = DM_Sans({
   subsets: ["latin"],
@@ -27,10 +29,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${dm_sans.className} antialiased bg-[#f9f9f9]`}>
-        <main className="min-h-[calc(100vh-140px)] flex flex-col items-center justify-center">
-          {children}
-        </main>
+      <body className={`${dm_sans.className} antialiased bg-background`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          <main className="min-h-[calc(100vh-140px)] flex flex-col items-center justify-center">
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );
