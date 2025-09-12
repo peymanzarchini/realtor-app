@@ -20,7 +20,7 @@ const Box = <T extends React.ElementType = "div">({
   ...rest
 }: BoxProps<T>) => {
   const Component = as || "div";
-  const baseClasses = "max-w-screen-xl mx-auto";
+  const baseClasses = "";
 
   const mergedClasses = twMerge(baseClasses, className);
 
