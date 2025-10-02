@@ -3,6 +3,7 @@ import express from "express";
 import { corsMiddleware } from "./middlewares/cors.js";
 import { responseMiddleware } from "./middlewares/response.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import userRoutes from "./routes/user.routes.js";
 
 async function startServer() {
   const app = express();
@@ -12,6 +13,10 @@ async function startServer() {
 
   app.use(corsMiddleware);
   app.use(responseMiddleware);
+
+  app.use("/api/v1/user", userRoutes);
+
+  app.use("/");
 
   app.use(errorHandler);
 
