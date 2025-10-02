@@ -78,9 +78,6 @@ export default class UserController {
         error.statusCode = 401;
         throw error;
       }
-      if (req.body.password) {
-        req.body.password = user.validPassword(req.body.password);
-      }
       const updateUser = await user.update({ firstName, lastName, email, avatar, password });
       res.success("User information was successfully updated.", updateUser, 200);
     } catch (error) {
