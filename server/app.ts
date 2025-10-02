@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import sequelize from "./config/db.js";
 import { corsMiddleware } from "./middlewares/cors.js";
 import { responseMiddleware } from "./middlewares/response.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
@@ -16,7 +17,7 @@ async function startServer() {
 
   app.use("/api/v1/user", userRoutes);
 
-  app.use("/");
+  await sequelize.sync({ force: true });
 
   app.use(errorHandler);
 

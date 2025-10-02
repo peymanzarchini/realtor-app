@@ -1,7 +1,7 @@
 import { Sequelize } from "@sequelize/core";
 import { MySqlDialect } from "@sequelize/mysql";
 
-const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } = process.env;
+const { DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT } = process.env;
 
 const port = DB_HOST ? parseInt(DB_PORT!, 10) : undefined;
 
@@ -10,7 +10,7 @@ const sequelize = new Sequelize({
   host: DB_HOST,
   database: DB_NAME,
   user: DB_USER,
-  password: DB_PASSWORD,
+  password: DB_PASS,
   logging: false,
   port: port,
 });
