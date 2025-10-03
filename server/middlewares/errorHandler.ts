@@ -10,7 +10,7 @@ import { HttpError } from "../utils/httpError.js";
 
 export function errorHandler(err: unknown, req: Request, res: Response, next: NextFunction) {
   let statusCode = 500;
-  let message = "مشکلی در سمت سرور پیش آمده است.";
+  let message = "There is a problem on the server side.";
 
   if (err instanceof ValidationError) {
     statusCode = 400;
@@ -31,14 +31,14 @@ export function errorHandler(err: unknown, req: Request, res: Response, next: Ne
 
   if (err instanceof ForeignKeyConstraintError) {
     statusCode = 400;
-    message = "شناسه ارجاعی نامعتبر است یا وجود ندارد.";
+    message = "The reference ID is invalid or does not exist.";
     res.fail(message, null, statusCode);
     return;
   }
 
   if (err instanceof DatabaseError) {
     statusCode = 503;
-    message = "سرویس پایگاه داده در دسترس نیست. لطفاً بعداً تلاش کنید.";
+    message = "The database service is unavailable. Please try again later.";
     res.fail(message, null, statusCode);
     return;
   }

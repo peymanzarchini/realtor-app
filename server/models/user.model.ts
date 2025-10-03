@@ -153,6 +153,12 @@ User.init(
     modelName: "User",
     tableName: "Users",
     timestamps: true,
+    defaultScope: {
+      attributes: { exclude: ["password"] },
+    },
+    scopes: {
+      withPassword: { attributes: { exclude: [] as string[] } },
+    },
     hooks: {
       async beforeCreate(user: User): Promise<void> {
         const hashedPassword = await bcrypt.hash(user.password, 10);

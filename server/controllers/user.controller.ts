@@ -8,11 +8,9 @@ export default class UserController {
     try {
       const { firstName, lastName, email, password, phoneNumber, avatar, role } = req.body;
 
-      const isUserExists = await User.findOne({ where: email });
+      const isUserExists = await User.findOne({ where: { email } });
       if (isUserExists) {
-        const error: HttpError = new Error("A user has registered with this email");
-        error.statusCode = 400;
-        throw error;
+        throw new HttpError("A user has registered with this email", 400);
       }
 
       const user = await User.create({
@@ -33,17 +31,16 @@ export default class UserController {
   static async loginUser(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
-      const user = await User.findOne({ where: email });
+      const user = await User.scope("withPassword").findOne({ where: { email } });
       if (!user) {
-        const error: HttpError = new Error("User not found");
-        error.statusCode = 404;
-        throw error;
+        throw new HttpError("User not found", 404);
       }
-      if (!(await user.validPassword(password))) {
-        const error: HttpError = new Error("Wrong credentials!");
-        error.statusCode = 401;
-        throw error;
+
+      const isValid = await user.validPassword(password);
+      if (!isValid) {
+        throw new HttpError("Wrong credentials!", 401);
       }
+
       const token = jwt.sign(
         {
           id: user.id,
@@ -60,10 +57,11 @@ export default class UserController {
       res
         .cookie("accessToken", token, {
           httpOnly: true,
+          sameSite: "strict",
           maxAge: 24 * 60 * 60 * 1000,
         })
         .status(200)
-        .json(token);
+        .send("Login successful");
     } catch (error) {
       next(error);
     }
@@ -74,9 +72,7 @@ export default class UserController {
       const { id } = req.params;
       const user = await User.findByPk(id);
       if (!user) {
-        const error: HttpError = new Error("You can only update your own account!");
-        error.statusCode = 401;
-        throw error;
+        throw new HttpError("You can only update your own account!", 401);
       }
       const updateUser = await user.update({ firstName, lastName, email, avatar, password });
       res.success("User information was successfully updated.", updateUser, 200);
