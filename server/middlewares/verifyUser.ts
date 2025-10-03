@@ -29,11 +29,21 @@ const verifyToken = (token: string, secret: string) => {
 
 export const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.cookies?.accessToken;
+    let token: string | undefined;
+
+    // Bearer Token
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    }
+
+    //Cookie Token
+    if (!token && req.cookies?.accessToken) {
+      token = req.cookies.accessToken;
+    }
+
     if (!token) {
-      const error: HttpError = new Error("You are not authenticated!");
-      error.statusCode = 401;
-      throw error;
+      throw new HttpError("Authentication token is missing!", 401);
     }
 
     if (!process.env.JWT_SECRET) {
@@ -43,16 +53,14 @@ export const verifyUser = async (req: Request, res: Response, next: NextFunction
     const decoded = await verifyToken(token, process.env.JWT_SECRET);
 
     if (typeof decoded === "string") {
-      const error: HttpError = new Error("Invalid token payload!");
-      error.statusCode = 403;
-      throw error;
+      throw new HttpError("Invalid token payload!", 403);
     }
 
     const { id, firstName, lastName, email, role } = decoded as JwtPayload;
     req.user = { id, firstName, lastName, email, role };
 
-    return next();
+    next();
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
