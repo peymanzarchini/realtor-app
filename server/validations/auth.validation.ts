@@ -3,23 +3,23 @@ import z from "zod";
 export const registerSchema = z.object({
   firstName: z
     .string()
-    .min(3, "نام باید حداقل ۳ کاراکتر باشد")
-    .max(40, "نام نباید بیشتر از ۴۰ کاراکتر باشد"),
+    .min(3, "First name must be at least 3 characters")
+    .max(40, "First name must not exceed 40 characters"),
   lastName: z
     .string()
-    .min(3, "نام خانوادگی باید حداقل ۳ کاراکتر باشد")
-    .max(40, "نام خانوادگی نباید بیشتر از ۴۰ کاراکتر باشد"),
-  email: z.string().email("ایمیل معتبر نیست"),
-  password: z.string().min(8, "رمز عبور باید حداقل ۸ کاراکتر باشد"),
+    .min(3, "Last name must be at least 3 characters")
+    .max(40, "Last name must not exceed 40 characters"),
+  email: z.string().email("Invalid email"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
   phoneNumber: z
     .string()
-    .regex(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, "شماره تلفن معتبر نیست"),
+    .regex(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/, "Invalid phone number"),
   role: z.enum(["client", "agent", "admin"]).optional(),
 });
 
 export const loginSchema = z.object({
-  email: z.string().email("ایمیل معتبر نیست"),
-  password: z.string().min(1, "رمز عبور الزامی است"),
+  email: z.email("Invalid email"),
+  password: z.string().min(1, "Password is required"),
 });
 
 export type RegisterBody = z.infer<typeof registerSchema>;

@@ -40,15 +40,15 @@ Property.init(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: { msg: "عنوان ملک الزامی است" },
-        len: { args: [10, 150], msg: "عنوان باید بین 10 تا 150 کاراکتر باشد" },
+        notNull: { msg: "Property title is required" },
+        len: { args: [10, 150], msg: "Title must be between 10 and 150 characters" },
       },
     },
     description: {
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        notNull: { msg: "توضیحات ملک الزامی است" },
+        notNull: { msg: "Property description is required" },
       },
     },
     price: {
@@ -65,7 +65,7 @@ Property.init(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: { msg: "آدرس ملک الزامی است" },
+        notNull: { msg: "Property address is required" },
       },
     },
     latitude: {

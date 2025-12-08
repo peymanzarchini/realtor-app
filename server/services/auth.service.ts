@@ -11,7 +11,7 @@ export class AuthService {
     const { email } = userData;
     const existingUser = await userRepository.findByEmail(email);
     if (existingUser) {
-      throw new HttpError("کاربری با این ایمیل قبلاً ثبت شده است", 409);
+      throw new HttpError("A user with this email already exists", 409);
     }
     const finalUserData = {
       ...userData,
@@ -24,7 +24,7 @@ export class AuthService {
   async login(email: string, password: string) {
     const user = await userRepository.findByEmail(email);
     if (!user || !(await user.validPassword(password))) {
-      throw new HttpError("ایمیل یا رمز عبور اشتباه است", 401);
+      throw new HttpError("Incorrect email or password", 401);
     }
     const tokenPayload = { id: user.id, email: user.email, role: user.role };
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET!, { expiresIn: "7d" });

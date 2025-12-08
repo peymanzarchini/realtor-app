@@ -45,7 +45,7 @@ export class PropertyService {
   async getPropertyById(id: number) {
     const property = await propertyRepository.findByIdWithDetails(id);
     if (!property) {
-      throw new HttpError("ملکی با این مشخصات یافت نشد", 404);
+      throw new HttpError("Property not found", 404);
     }
     return property;
   }
@@ -58,7 +58,7 @@ export class PropertyService {
   ) {
     const property = await this.getPropertyById(id);
     if (property.agentId !== userId && userRole !== "admin") {
-      throw new HttpError("شما اجازه ویرایش این ملک را ندارید", 403);
+      throw new HttpError("You are not authorized to edit this property", 403);
     }
     await propertyRepository.update(id, updateData);
     return this.getPropertyById(id);
@@ -67,7 +67,7 @@ export class PropertyService {
   async deleteProperty(id: number, userId: number, userRole: string) {
     const property = await this.getPropertyById(id);
     if (property.agentId !== userId && userRole !== "admin") {
-      throw new HttpError("شما اجازه حذف این ملک را ندارید", 403);
+      throw new HttpError("You are not authorized to delete this property", 403);
     }
     await propertyRepository.delete(id);
   }
