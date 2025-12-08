@@ -11,7 +11,7 @@ export const createProperty = async (req: Request, res: Response, next: NextFunc
       req.body as CreatePropertyDto,
       req.user!.id
     );
-    res.success("ملک با موفقیت ایجاد شد", newProperty, 201);
+    res.success("Property created successfully", newProperty, 201);
   } catch (error) {
     next(error);
   }
@@ -34,7 +34,7 @@ export const getProperties = async (req: Request, res: Response, next: NextFunct
       limit: limit,
     };
     const result = await propertyService.getAllProperties(filters);
-    res.success("لیست املاک با موفقیت دریافت شد", result, 200);
+    res.success("Properties list retrieved successfully", result, 200);
   } catch (error) {
     next(error);
   }
@@ -43,7 +43,7 @@ export const getProperties = async (req: Request, res: Response, next: NextFunct
 export const getPropertyById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const property = await propertyService.getPropertyById(Number(req.params.id));
-    res.success("جزئیات ملک دریافت شد", property);
+    res.success("Property details retrieved", property);
   } catch (error) {
     next(error);
   }
@@ -57,7 +57,7 @@ export const updateProperty = async (req: Request, res: Response, next: NextFunc
       req.user!.id,
       req.user!.role
     );
-    res.success("ملک با موفقیت آپدیت شد", updatedProperty);
+    res.success("Property updated successfully", updatedProperty);
   } catch (error) {
     next(error);
   }
@@ -66,7 +66,7 @@ export const updateProperty = async (req: Request, res: Response, next: NextFunc
 export const deleteProperty = async (req: Request, res: Response, next: NextFunction) => {
   try {
     await propertyService.deleteProperty(Number(req.params.id), req.user!.id, req.user!.role);
-    res.success("ملک با موفقیت حذف شد", 200);
+    res.success("Property deleted successfully", 200);
   } catch (error) {
     next(error);
   }
@@ -75,7 +75,7 @@ export const deleteProperty = async (req: Request, res: Response, next: NextFunc
 export const addImage = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.file) {
-      throw new HttpError("فایلی بارگذاری نشده است", 400);
+      throw new HttpError("No file uploaded", 400);
     }
 
     const fullUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
@@ -86,7 +86,7 @@ export const addImage = async (req: Request, res: Response, next: NextFunction) 
       url: fullUrl,
       isCover,
     });
-    res.success("تصویر با موفقیت اضافه شد", image, 201);
+    res.success("Image added successfully", image, 201);
   } catch (error) {
     next(error);
   }

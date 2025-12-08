@@ -21,7 +21,7 @@ export const register = async (
       role,
     });
 
-    res.success("کاربر با موفقیت ثبت شد", user, 201);
+    res.success("User registered successfully", user, 201);
   } catch (error) {
     next(error);
   }
@@ -43,7 +43,7 @@ export const login = async (
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.success("ورود با موفقیت انجام شد", { user });
+    res.success("Login successful", { user });
   } catch (error) {
     next(error);
   }
@@ -51,5 +51,5 @@ export const login = async (
 
 export const logout = (req: Request, res: Response) => {
   res.clearCookie("token");
-  res.success("خروج با موفقیت انجام شد", 200);
+  res.success("Logout successful", 200);
 };

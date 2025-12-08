@@ -35,44 +35,44 @@ User.init(
       type: DataTypes.STRING(40),
       allowNull: false,
       validate: {
-        notNull: { msg: "نام الزامی است" },
-        len: { args: [3, 40], msg: "نام خانوادگی باید بین 3 تا 40 کاراکتر باشد" },
+        notNull: { msg: "First name is required" },
+        len: { args: [3, 40], msg: "Last name must be between 3 and 40 characters" },
       },
     },
     lastName: {
       type: DataTypes.STRING(40),
       allowNull: false,
       validate: {
-        notNull: { msg: "نام خانوادگی الزامی است" },
-        len: { args: [3, 40], msg: "نام خانوادگی باید بین 3 تا 40 کاراکتر باشد" },
+        notNull: { msg: "Last name is required" },
+        len: { args: [3, 40], msg: "Last name must be between 3 and 40 characters" },
       },
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: { name: "unique_email", msg: "این ایمیل قبلاً ثبت شده است" },
-      validate: { isEmail: { msg: "ایمیل معتبر نیست" } },
+      unique: { name: "unique_email", msg: "This email is already registered" },
+      validate: { isEmail: { msg: "Invalid email" } },
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: { msg: "رمز عبور الزامی است" },
-        len: { args: [8, 255], msg: "رمز عبور باید حداقل 8 کاراکتر باشد" },
+        notNull: { msg: "Password is required" },
+        len: { args: [8, 255], msg: "Password must be at least 8 characters" },
       },
     },
     phoneNumber: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: { name: "unique_phone_number", msg: "این شماره تلفن قبلاً ثبت شده است" },
+      unique: { name: "unique_phone_number", msg: "This phone number is already registered" },
       validate: {
-        notNull: { msg: "شماره تلفن الزامی است" },
+        notNull: { msg: "Phone number is required" },
       },
     },
     avatar: {
       type: DataTypes.STRING,
       allowNull: true,
-      validate: { isUrl: { msg: "آدرس آواتار معتبر نیست" } },
+      validate: { isUrl: { msg: "Invalid avatar URL" } },
     },
     role: {
       type: DataTypes.ENUM("client", "agent", "admin"),

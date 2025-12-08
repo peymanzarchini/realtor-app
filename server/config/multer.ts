@@ -23,7 +23,7 @@ const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCa
   if (file.mimetype.startsWith("image/")) {
     cb(null, true);
   } else {
-    cb(new HttpError("فقط فرمت‌های تصویری مجاز هستند", 400) as any, false);
+    cb(new HttpError("Only image formats are allowed", 400) as any, false);
   }
 };
 

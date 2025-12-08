@@ -28,7 +28,7 @@ PropertyImage.init(
     url: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: { isUrl: { msg: "آدرس تصویر معتبر نیست" } },
+      validate: { isUrl: { msg: "Invalid image URL" } },
     },
     isCover: {
       type: DataTypes.BOOLEAN,
