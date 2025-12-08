@@ -1,11 +1,12 @@
 export class HttpError extends Error {
-  statusCode: number;
+  public statusCode: number;
+  public isOperational: boolean;
 
   constructor(message: string, statusCode: number) {
     super(message);
     this.statusCode = statusCode;
-    this.name = this.constructor.name;
+    this.isOperational = true;
 
-    Object.setPrototypeOf(this, HttpError.prototype);
+    Error.captureStackTrace(this, this.constructor);
   }
 }

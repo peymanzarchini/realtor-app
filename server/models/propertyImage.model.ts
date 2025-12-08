@@ -4,12 +4,11 @@ import {
   InferAttributes,
   InferCreationAttributes,
   CreationOptional,
-  BelongsToGetAssociationMixin,
 } from "@sequelize/core";
-import sequelize from "../config/db.js";
-import Property from "./property.model.js";
+import { sequelize } from "../config/database.js";
+import type { Property } from "./property.model.js";
 
-class PropertyImage extends Model<
+export class PropertyImage extends Model<
   InferAttributes<PropertyImage>,
   InferCreationAttributes<PropertyImage>
 > {
@@ -17,34 +16,42 @@ class PropertyImage extends Model<
   declare url: string;
   declare isCover: boolean;
   declare propertyId: number;
-
-  declare getProperty: BelongsToGetAssociationMixin<Property>;
-
-  public static associate(models: { Property: typeof Property }) {
-    PropertyImage.belongsTo(models.Property, {
-      foreignKey: "propertyId",
-      as: "property",
-    });
-  }
 }
 
 PropertyImage.init(
   {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    url: { type: DataTypes.STRING, allowNull: false, validate: { isUrl: true } },
-    isCover: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { isUrl: { msg: "آدرس تصویر معتبر نیست" } },
+    },
+    isCover: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
     propertyId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: Property, key: "id" },
+      references: { model: "Properties" as never, key: "id" },
     },
   },
   {
     sequelize,
     modelName: "PropertyImage",
-    tableName: "PropertyImage",
+    tableName: "PropertyImages",
     timestamps: false,
   }
 );
 
-export default PropertyImage;
+export const associate = (models: { Property: typeof Property }) => {
+  PropertyImage.belongsTo(models.Property, {
+    foreignKey: "propertyId",
+    as: "property",
+  });
+};

@@ -1,20 +1,14 @@
-import sequelize from "../config/db.js";
-import User from "./user.model.js";
-import Property from "./property.model.js";
-import PropertyImage from "./propertyImage.model.js";
-import Feature from "./feature.model.js";
+import { sequelize } from "../config/database.js";
+import { User, associate as userAssociate } from "./user.model.js";
+import { Property, associate as propertyAssociate } from "./property.model.js";
+import { Feature, associate as featureAssociate } from "./feature.model.js";
+import { PropertyImage, associate as propertyImageAssociate } from "./propertyImage.model.js";
 
-const models = {
-  User,
-  Property,
-  PropertyImage,
-  Feature,
-};
+const models = { User, Property, Feature, PropertyImage };
 
-Object.values(models).forEach((model) => {
-  if (model.associate) {
-    model.associate(models);
-  }
-});
+userAssociate(models);
+propertyAssociate(models);
+featureAssociate(models);
+propertyImageAssociate(models);
 
-export { sequelize, User, Property, PropertyImage, Feature };
+export { sequelize, models };
