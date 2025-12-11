@@ -33,7 +33,7 @@ app.use(responseMiddleware);
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
-  message: "تعداد درخواست‌های شما بیش از حد مجاز است، لطفاً کمی بعد دوباره تلاش کنید.",
+  message: "Too many requests from this IP, please try again after 15 minutes",
 });
 
 app.use("/api", limiter);
