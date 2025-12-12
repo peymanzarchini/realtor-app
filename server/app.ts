@@ -1,4 +1,5 @@
 import express from "express";
+import "dotenv/config";
 import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
@@ -8,7 +9,6 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import { responseMiddleware } from "./middlewares/response.js";
 import routes from "./routes/index.js";
 
-import "dotenv/config";
 import morgan from "morgan";
 import path from "path";
 

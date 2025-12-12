@@ -6,9 +6,6 @@ import {
   CreationOptional,
 } from "@sequelize/core";
 import { sequelize } from "../config/database.js";
-import type { User } from "./user.model.js";
-import type { Feature } from "./feature.model.js";
-import type { PropertyImage } from "./propertyImage.model.js";
 
 export class Property extends Model<InferAttributes<Property>, InferCreationAttributes<Property>> {
   declare id: CreationOptional<number>;
@@ -116,7 +113,6 @@ Property.init(
     agentId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: "Users" as never, key: "id" },
     },
   },
   {
@@ -125,26 +121,3 @@ Property.init(
     tableName: "Properties",
   }
 );
-
-export const associate = (models: {
-  User: typeof User;
-  Feature: typeof Feature;
-  PropertyImage: typeof PropertyImage;
-}) => {
-  Property.belongsTo(models.User, {
-    foreignKey: "agentId",
-    as: "agent",
-  });
-
-  Property.belongsToMany(models.Feature, {
-    through: "PropertyFeatures",
-    as: "features",
-    foreignKey: "propertyId",
-    otherKey: "featureId",
-  });
-
-  Property.hasMany(models.PropertyImage, {
-    foreignKey: "propertyId",
-    as: "images",
-  });
-};

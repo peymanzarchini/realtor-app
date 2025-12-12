@@ -7,7 +7,6 @@ import {
 } from "@sequelize/core";
 import { sequelize } from "../config/database.js";
 import bcrypt from "bcrypt";
-import type { Property } from "./property.model.js";
 
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
@@ -103,13 +102,3 @@ User.init(
     },
   }
 );
-
-export const associate = (models: { Property: typeof Property }) => {
-  User.hasMany(models.Property, { foreignKey: "agentId", as: "properties" });
-  User.belongsToMany(models.Property, {
-    through: "Favorites",
-    as: "favoriteProperties",
-    foreignKey: "userId",
-    otherKey: "propertyId",
-  });
-};

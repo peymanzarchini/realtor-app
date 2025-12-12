@@ -6,7 +6,6 @@ import {
   CreationOptional,
 } from "@sequelize/core";
 import { sequelize } from "../config/database.js";
-import type { Property } from "./property.model.js";
 
 export class Feature extends Model<InferAttributes<Feature>, InferCreationAttributes<Feature>> {
   declare id: CreationOptional<number>;
@@ -34,12 +33,3 @@ Feature.init(
     timestamps: false,
   }
 );
-
-export const associate = (model: { Property: typeof Property }) => {
-  Feature.belongsToMany(model.Property, {
-    through: "PropertyFeatures",
-    as: "properties",
-    foreignKey: "featureId",
-    otherKey: "propertyId",
-  });
-};

@@ -6,7 +6,6 @@ import {
   CreationOptional,
 } from "@sequelize/core";
 import { sequelize } from "../config/database.js";
-import type { Property } from "./property.model.js";
 
 export class PropertyImage extends Model<
   InferAttributes<PropertyImage>,
@@ -38,7 +37,6 @@ PropertyImage.init(
     propertyId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: "Properties" as never, key: "id" },
     },
   },
   {
@@ -48,10 +46,3 @@ PropertyImage.init(
     timestamps: false,
   }
 );
-
-export const associate = (models: { Property: typeof Property }) => {
-  PropertyImage.belongsTo(models.Property, {
-    foreignKey: "propertyId",
-    as: "property",
-  });
-};
