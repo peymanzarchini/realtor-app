@@ -29,7 +29,7 @@ Feature.init(
   {
     sequelize,
     modelName: "Feature",
-    tableName: "Features",
+    tableName: "features",
     timestamps: false,
   }
 );

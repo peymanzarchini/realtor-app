@@ -42,7 +42,7 @@ PropertyImage.init(
   {
     sequelize,
     modelName: "PropertyImage",
-    tableName: "PropertyImages",
+    tableName: "property_images",
     timestamps: false,
   }
 );
