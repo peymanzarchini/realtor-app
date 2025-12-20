@@ -17,22 +17,36 @@ const router = Router();
  * @swagger
  * /api/v1/properties:
  *   get:
- *     summary: لیست املاک با فیلتر متراژ و قیمت
+ *     summary: جستجو و فیلتر پیشرفته املاک
  *     tags: [Properties]
  *     parameters:
  *       - in: query
- *         name: page
- *         schema: { type: integer }
+ *         name: search
+ *         description: جستجو در عنوان، توضیحات یا آدرس
+ *         schema: { type: string }
+ *       - in: query
+ *         name: sortBy
+ *         description: فیلد مورد نظر برای مرتب‌سازی (price, area, createdAt)
+ *         schema: { type: string, example: "price" }
+ *       - in: query
+ *         name: sortOrder
+ *         schema: { type: string, enum: [ASC, DESC] }
  *       - in: query
  *         name: minPrice
- *         description: اگر اجاره باشد روی rentPrice و اگر فروش باشد روی price اعمال می‌شود
  *         schema: { type: number }
+ *       - in: query
+ *         name: minArea
+ *         description: حداقل متراژ
+ *         schema: { type: integer }
  *       - in: query
  *         name: propertyType
  *         schema: { type: string, enum: [apartment, villa, office, land, shop] }
+ *       - in: query
+ *         name: page
+ *         schema: { type: integer, default: 1 }
  *     responses:
  *       200:
- *         description: لیست دیتا همراه با اطلاعات pagination
+ *         description: موفق
  */
 router.get("/", getProperties);
 
