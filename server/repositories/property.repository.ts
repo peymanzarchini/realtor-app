@@ -17,16 +17,13 @@ export class PropertyRepository extends BaseRepository<Property> {
     if (filters.listingType) whereClause.listingType = filters.listingType;
     if (filters.bedrooms) whereClause.bedrooms = filters.bedrooms;
 
-    const priceConditions: any = {};
-    if (filters.minPrice !== undefined) {
-      priceConditions[Op.gte] = filters.minPrice;
-    }
-    if (filters.maxPrice !== undefined) {
-      priceConditions[Op.lte] = filters.maxPrice;
-    }
+    const priceField = filters.listingType === "rent" ? "rentPrice" : "price";
 
-    if (Object.keys(priceConditions).length > 0) {
-      whereClause.price = priceConditions;
+    if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+      const condition: any = {};
+      if (filters.minPrice !== undefined) condition[Op.gte] = filters.minPrice;
+      if (filters.maxPrice !== undefined) condition[Op.lte] = filters.maxPrice;
+      whereClause[priceField] = condition;
     }
 
     return whereClause;
@@ -57,7 +54,7 @@ export class PropertyRepository extends BaseRepository<Property> {
           through: { attributes: [] },
         },
       ],
-      order: [["createdAt", "DESC"]],
+      order: [["createdAt", "ASC"]],
       limit,
       offset,
     };

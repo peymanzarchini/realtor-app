@@ -8,6 +8,8 @@ import { connectDB } from "./config/database.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { responseMiddleware } from "./middlewares/response.js";
 import routes from "./routes/index.js";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger.js";
 
 import morgan from "morgan";
 import path from "path";
@@ -37,6 +39,8 @@ const limiter = rateLimit({
 });
 
 app.use("/api", limiter);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(routes);
 

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthService } from "../services/auth.service.js";
-import { LoginBody, RegisterBody } from "../validations/auth.validation.js";
+import { RegisterBody } from "../validations/auth.validation.js";
+import { HttpError } from "../utils/httpError.js";
 
 const authService = new AuthService();
 
@@ -27,23 +28,31 @@ export const register = async (
   }
 };
 
-export const login = async (
-  req: Request<unknown, unknown, LoginBody>,
-  res: Response,
-  next: NextFunction
-) => {
+export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
+    const { user, accessToken, refreshToken } = await authService.login(email, password);
 
-    const { user, token } = await authService.login(email, password);
-    res.cookie("token", token, {
+    res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    res.success("Login successful", { user });
+    res.success("Login successful", { user, accessToken });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const token = req.cookies?.refreshToken;
+    if (!token) throw new HttpError("Refresh token not found", 401);
+
+    const accessToken = await authService.refresh(token);
+    res.success("Token refreshed", { accessToken });
   } catch (error) {
     next(error);
   }
