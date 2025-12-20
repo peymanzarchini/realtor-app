@@ -1,47 +1,25 @@
 import {
-  BelongsToManyAddAssociationMixin,
-  CreationOptional,
   DataTypes,
-  HasManyCreateAssociationMixin,
+  Model,
   InferAttributes,
   InferCreationAttributes,
-  Model,
+  CreationOptional,
 } from "@sequelize/core";
-import sequelize from "../config/db.js";
+import { sequelize } from "../config/database.js";
 import bcrypt from "bcrypt";
-import type Property from "./property.model.js";
 
-class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
   declare firstName: string;
   declare lastName: string;
   declare email: string;
   declare password: string;
   declare phoneNumber: string;
-  declare avatar: string;
+  declare avatar: CreationOptional<string>;
   declare role: "client" | "agent" | "admin";
-  declare readonly createdAt: CreationOptional<Date>;
-  declare readonly updatedAt: CreationOptional<Date>;
 
-  declare createProperty: HasManyCreateAssociationMixin<Property>;
-  declare addFavoriteProperty: BelongsToManyAddAssociationMixin<Property, number>;
-
-  public async validPassword(password: string): Promise<boolean> {
-    return await bcrypt.compare(password, this.password);
-  }
-
-  public static associate(models: { Property: typeof Property }) {
-    User.hasMany(models.Property, {
-      foreignKey: "agentId",
-      as: "properties",
-    });
-
-    User.belongsToMany(models.Property, {
-      through: "Favorites",
-      as: "favoriteProperties",
-      foreignKey: "userId",
-      otherKey: "propertyId",
-    });
+  async validPassword(password: string): Promise<boolean> {
+    return bcrypt.compare(password, this.password);
   }
 }
 
@@ -55,123 +33,72 @@ User.init(
     firstName: {
       type: DataTypes.STRING(40),
       allowNull: false,
-      set(value: string) {
-        this.setDataValue("firstName", value.trim());
-      },
       validate: {
-        notNull: {
-          msg: "firstName is required",
-        },
-        len: {
-          args: [3, 40],
-          msg: "firstName must be between 3 and 40 characters long",
-        },
+        notNull: { msg: "First name is required" },
+        len: { args: [3, 40], msg: "Last name must be between 3 and 40 characters" },
       },
     },
     lastName: {
       type: DataTypes.STRING(40),
       allowNull: false,
-      set(value: string) {
-        this.setDataValue("lastName", value.trim());
-      },
       validate: {
-        notNull: {
-          msg: "lastName is required",
-        },
-        len: {
-          args: [3, 40],
-          msg: "lastName must be between 3 and 40 characters long",
-        },
+        notNull: { msg: "Last name is required" },
+        len: { args: [3, 40], msg: "Last name must be between 3 and 40 characters" },
       },
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: {
-        name: "unique_email",
-        msg: "email must be unique",
-      },
-      validate: {
-        isEmail: {
-          msg: "email must be a valid email address",
-        },
-      },
+      unique: { name: "unique_email", msg: "This email is already registered" },
+      validate: { isEmail: { msg: "Invalid email" } },
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: {
-          msg: "password is required",
-        },
-        is: {
-          args: [/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/],
-          msg: "password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-        },
+        notNull: { msg: "Password is required" },
+        len: { args: [8, 255], msg: "Password must be at least 8 characters" },
       },
     },
     phoneNumber: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: {
-        name: "unique_phone_number",
-        msg: "This phone number is already in use",
-      },
+      unique: { name: "unique_phone_number", msg: "This phone number is already registered" },
       validate: {
-        notNull: {
-          msg: "phoneNumber is required",
-        },
-        is: {
-          args: [/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/],
-          msg: "phoneNumber must be a valid phone number",
-        },
+        notNull: { msg: "Phone number is required" },
       },
     },
     avatar: {
       type: DataTypes.STRING,
       allowNull: true,
-      validate: {
-        isUrl: {
-          msg: "avatar must be a valid URL",
-        },
-      },
+      validate: { isUrl: { msg: "Invalid avatar URL" } },
     },
     role: {
       type: DataTypes.ENUM("client", "agent", "admin"),
       allowNull: false,
       defaultValue: "client",
-      validate: {
-        isIn: {
-          args: [["client", "agent", "admin"]],
-          msg: "role must be one of the following: client, agent, admin",
-        },
-      },
     },
   },
   {
     sequelize,
     modelName: "User",
-    tableName: "Users",
-    timestamps: true,
+    tableName: "users",
+
     defaultScope: {
       attributes: { exclude: ["password"] },
     },
     scopes: {
-      withPassword: { attributes: { exclude: [] as string[] } },
+      withPassword: { attributes: { include: ["password"] } },
     },
     hooks: {
-      async beforeCreate(user: User): Promise<void> {
-        const hashedPassword = await bcrypt.hash(user.password, 10);
-        user.password = hashedPassword;
+      beforeCreate: async (user: User) => {
+        user.password = await bcrypt.hash(user.password, 10);
       },
-      async beforeUpdate(user: User): Promise<void> {
+      beforeUpdate: async (user: User) => {
         if (user.changed("password")) {
-          const hashedPassword = await bcrypt.hash(user.password, 10);
-          user.password = hashedPassword;
+          user.password = await bcrypt.hash(user.password, 10);
         }
       },
     },
   }
 );
-
-export default User;

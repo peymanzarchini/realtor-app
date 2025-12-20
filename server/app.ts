@@ -1,29 +1,58 @@
-import "dotenv/config";
 import express from "express";
-import sequelize from "./config/db.js";
-import { corsMiddleware } from "./middlewares/cors.js";
-import { responseMiddleware } from "./middlewares/response.js";
+import "dotenv/config";
+import cors from "cors";
+import helmet from "helmet";
+import cookieParser from "cookie-parser";
+import rateLimit from "express-rate-limit";
+import { connectDB } from "./config/database.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
-import userRoutes from "./routes/user.routes.js";
+import { responseMiddleware } from "./middlewares/response.js";
+import routes from "./routes/index.js";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger.js";
 
-async function startServer() {
-  const app = express();
+import morgan from "morgan";
+import path from "path";
 
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+const app = express();
 
-  app.use(corsMiddleware);
-  app.use(responseMiddleware);
+app.use(morgan("dev"));
 
-  app.use("/api/v1/user", userRoutes);
+app.use(helmet({ crossOriginResourcePolicy: false }));
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    credentials: true,
+  })
+);
+app.use(express.json({ limit: "10kb" }));
+app.use(cookieParser());
 
-  await sequelize.sync({ force: true });
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-  app.use(errorHandler);
+app.use(responseMiddleware);
 
-  app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server is running on port ${process.env.PORT || 3000}`);
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: "Too many requests from this IP, please try again after 15 minutes",
+});
+
+app.use("/api", limiter);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use(routes);
+
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 3000;
+
+const startServer = async () => {
+  await connectDB();
+  app.listen(PORT, () => {
+    console.log(`🚀 Server is running on port ${PORT}`);
   });
-}
+};
 
 startServer();
