@@ -118,6 +118,6 @@ Property.init(
   {
     sequelize,
     modelName: "Property",
-    tableName: "Properties",
+    tableName: "properties",
   }
 );

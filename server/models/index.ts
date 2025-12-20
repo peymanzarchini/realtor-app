@@ -17,7 +17,7 @@ User.hasMany(models.Property, {
   as: "properties",
 });
 User.belongsToMany(models.Property, {
-  through: "Favorites",
+  through: "favorites",
   as: "favoriteProperties",
   foreignKey: "userId",
   otherKey: "propertyId",
@@ -29,7 +29,7 @@ Property.belongsTo(models.User, {
   as: "agent",
 });
 Property.belongsToMany(models.Feature, {
-  through: "PropertyFeatures",
+  through: "property_features",
   as: "features",
   foreignKey: "propertyId",
   otherKey: "featureId",
@@ -41,7 +41,7 @@ Property.hasMany(models.PropertyImage, {
 
 // Feature Associations
 Feature.belongsToMany(models.Property, {
-  through: "PropertyFeatures",
+  through: "property_features",
   as: "properties",
   foreignKey: "featureId",
   otherKey: "propertyId",

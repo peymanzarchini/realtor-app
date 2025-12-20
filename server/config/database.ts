@@ -9,7 +9,7 @@ export const sequelize = new Sequelize({
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
-  logging: process.env.NODE_ENV === "development" ? console.log : false,
+  logging: false,
 });
 
 export const connectDB = async () => {
@@ -18,7 +18,7 @@ export const connectDB = async () => {
     console.log("✅ Database connection has been established successfully.");
 
     if (process.env.NODE_ENV === "development") {
-      await sequelize.sync({ alter: true });
+      await sequelize.sync({ force: true });
       console.log("✅ Database synchronized.");
     }
   } catch (error) {

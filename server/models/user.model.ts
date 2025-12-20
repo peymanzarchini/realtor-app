@@ -82,7 +82,7 @@ User.init(
   {
     sequelize,
     modelName: "User",
-    tableName: "Users",
+    tableName: "users",
 
     defaultScope: {
       attributes: { exclude: ["password"] },

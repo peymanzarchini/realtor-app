@@ -1,4 +1,4 @@
-import { models } from "../models/index.js";
+import { models, sequelize } from "../models/index.js";
 import { PropertyRepository } from "../repositories/property.repository.js";
 import {
   AddImageDto,
@@ -74,15 +74,19 @@ export class PropertyService {
 
   async addImageToProperty(propertyId: number, imageData: AddImageDto) {
     const { url, isCover } = imageData;
-    if (isCover) {
-      await models.PropertyImage.update({ isCover: false }, { where: { propertyId } });
-    }
-    const finalIsCover = isCover ?? false;
 
-    return models.PropertyImage.create({
-      url,
-      propertyId,
-      isCover: finalIsCover,
+    // استفاده از تراکنش برای تضمین اینکه فقط یک تصویر Cover بماند
+    return await sequelize.transaction(async (t) => {
+      if (isCover) {
+        await models.PropertyImage.update(
+          { isCover: false },
+          { where: { propertyId }, transaction: t }
+        );
+      }
+      return models.PropertyImage.create(
+        { url, propertyId, isCover: isCover ?? false },
+        { transaction: t }
+      );
     });
   }
 }
