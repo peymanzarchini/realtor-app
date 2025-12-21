@@ -23,6 +23,7 @@ export class Property extends Model<InferAttributes<Property>, InferCreationAttr
   declare propertyType: "apartment" | "villa" | "office" | "land" | "shop";
   declare listingType: "sale" | "rent";
   declare status: "available" | "sold" | "rented" | "pending";
+  declare viewsCount: CreationOptional<number>;
   declare agentId: number;
 }
 
@@ -109,6 +110,10 @@ Property.init(
       type: DataTypes.ENUM("available", "sold", "rented", "pending"),
       allowNull: false,
       defaultValue: "available",
+    },
+    viewsCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
     agentId: {
       type: DataTypes.INTEGER,

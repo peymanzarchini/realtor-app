@@ -7,6 +7,8 @@ import {
   deleteProperty,
   updateProperty,
 } from "../controllers/property.controller.js";
+import { toggleFavorite } from "../controllers/userAction.controller.js";
+import { updatePropertyFeatures } from "../controllers/feature.controller.js";
 import { authenticate, authorize } from "../middlewares/auth.middleware.js";
 import { upload } from "../config/multer.js";
 import { UserRole } from "../constants/roles.js";
@@ -15,29 +17,28 @@ const router = Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Properties
+ *   description: Real estate listings and management
+ */
+
+/**
+ * @swagger
  * /api/v1/properties:
  *   get:
- *     summary: جستجو و فیلتر پیشرفته املاک
+ *     summary: Search and filter properties with pagination
  *     tags: [Properties]
  *     parameters:
  *       - in: query
  *         name: search
- *         description: جستجو در عنوان، توضیحات یا آدرس
  *         schema: { type: string }
+ *         description: Search by title, description, or address
  *       - in: query
  *         name: sortBy
- *         description: فیلد مورد نظر برای مرتب‌سازی (price, area, createdAt)
- *         schema: { type: string, example: "price" }
+ *         schema: { type: string, enum: [price, area, createdAt], default: "createdAt" }
  *       - in: query
  *         name: sortOrder
- *         schema: { type: string, enum: [ASC, DESC] }
- *       - in: query
- *         name: minPrice
- *         schema: { type: number }
- *       - in: query
- *         name: minArea
- *         description: حداقل متراژ
- *         schema: { type: integer }
+ *         schema: { type: string, enum: [ASC, DESC], default: "DESC" }
  *       - in: query
  *         name: propertyType
  *         schema: { type: string, enum: [apartment, villa, office, land, shop] }
@@ -46,7 +47,7 @@ const router = Router();
  *         schema: { type: integer, default: 1 }
  *     responses:
  *       200:
- *         description: موفق
+ *         description: Successfully retrieved property list
  */
 router.get("/", getProperties);
 
@@ -54,7 +55,7 @@ router.get("/", getProperties);
  * @swagger
  * /api/v1/properties/{id}:
  *   get:
- *     summary: دریافت جزئیات یک ملک با شناسه
+ *     summary: Get detailed information for a specific property
  *     tags: [Properties]
  *     parameters:
  *       - in: path
@@ -63,20 +64,39 @@ router.get("/", getProperties);
  *         schema: { type: integer }
  *     responses:
  *       200:
- *         description: جزئیات ملک
+ *         description: Property details including agent, images, and features
  *       404:
- *         description: ملک یافت نشد
+ *         description: Property not found
  */
 router.get("/:id", getPropertyById);
 
-// Protected Routes
+// --- Protected Routes (Authentication Required) ---
 router.use(authenticate);
+
+/**
+ * @swagger
+ * /api/v1/properties/{id}/favorite:
+ *   post:
+ *     summary: Toggle property in user's favorite list
+ *     tags: [Properties]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: integer }
+ *     responses:
+ *       200:
+ *         description: Favorite status updated
+ */
+router.post("/:id/favorite", toggleFavorite);
 
 /**
  * @swagger
  * /api/v1/properties:
  *   post:
- *     summary: ثبت ملک جدید (نیاز به توکن Agent/Admin)
+ *     summary: List a new property (Agent/Admin Only)
  *     security:
  *       - bearerAuth: []
  *     tags: [Properties]
@@ -88,7 +108,7 @@ router.use(authenticate);
  *             $ref: '#/components/schemas/Property'
  *     responses:
  *       201:
- *         description: ملک ثبت شد
+ *         description: Property created successfully
  */
 router.post("/", authorize(UserRole.AGENT, UserRole.ADMIN), createProperty);
 
@@ -96,7 +116,7 @@ router.post("/", authorize(UserRole.AGENT, UserRole.ADMIN), createProperty);
  * @swagger
  * /api/v1/properties/{id}:
  *   put:
- *     summary: ویرایش ملک
+ *     summary: Update an existing property
  *     tags: [Properties]
  *     security:
  *       - bearerAuth: []
@@ -112,7 +132,7 @@ router.post("/", authorize(UserRole.AGENT, UserRole.ADMIN), createProperty);
  *             $ref: '#/components/schemas/Property'
  *     responses:
  *       200:
- *         description: ملک بروزرسانی شد
+ *         description: Property updated
  */
 router.put("/:id", authorize(UserRole.AGENT, UserRole.ADMIN), updateProperty);
 
@@ -120,7 +140,7 @@ router.put("/:id", authorize(UserRole.AGENT, UserRole.ADMIN), updateProperty);
  * @swagger
  * /api/v1/properties/{id}:
  *   delete:
- *     summary: حذف ملک
+ *     summary: Delete a property listing
  *     tags: [Properties]
  *     security:
  *       - bearerAuth: []
@@ -131,15 +151,47 @@ router.put("/:id", authorize(UserRole.AGENT, UserRole.ADMIN), updateProperty);
  *         schema: { type: integer }
  *     responses:
  *       200:
- *         description: ملک حذف شد
+ *         description: Property deleted successfully
  */
 router.delete("/:id", authorize(UserRole.AGENT, UserRole.ADMIN), deleteProperty);
 
 /**
  * @swagger
+ * /api/v1/properties/{id}/features:
+ *   post:
+ *     summary: Assign multiple features (amenities) to a property
+ *     tags: [Properties]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: integer }
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [featureIds]
+ *             properties:
+ *               featureIds:
+ *                 type: array
+ *                 items: { type: integer }
+ *                 example: [1, 2, 4]
+ *                 description: Array of feature IDs to be linked to this property
+ *     responses:
+ *       200:
+ *         description: Property features updated
+ */
+router.post("/:id/features", authorize(UserRole.AGENT, UserRole.ADMIN), updatePropertyFeatures);
+
+/**
+ * @swagger
  * /api/v1/properties/{id}/images:
  *   post:
- *     summary: آپلود تصویر برای ملک
+ *     summary: Upload and attach an image to a property
  *     tags: [Properties]
  *     security:
  *       - bearerAuth: []
@@ -162,7 +214,7 @@ router.delete("/:id", authorize(UserRole.AGENT, UserRole.ADMIN), deleteProperty)
  *                 example: "true"
  *     responses:
  *       201:
- *         description: تصویر با موفقیت آپلود شد
+ *         description: Image uploaded successfully
  */
 router.post(
   "/:id/images",

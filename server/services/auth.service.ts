@@ -9,7 +9,7 @@ const userRepository = new UserRepository();
 
 export class AuthService {
   private generateTokens(payload: object) {
-    const accessToken = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "20ms" });
+    const accessToken = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "1h" });
     const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET!, { expiresIn: "7d" });
     return { accessToken, refreshToken };
   }
@@ -45,7 +45,7 @@ export class AuthService {
     try {
       const decoded = jwt.verify(token, process.env.REFRESH_SECRET!) as any;
       const newPayload = { id: decoded.id, email: decoded.email, role: decoded.role };
-      const accessToken = jwt.sign(newPayload, process.env.JWT_SECRET!, { expiresIn: "20m" });
+      const accessToken = jwt.sign(newPayload, process.env.JWT_SECRET!, { expiresIn: "1h" });
 
       return accessToken;
     } catch (error) {

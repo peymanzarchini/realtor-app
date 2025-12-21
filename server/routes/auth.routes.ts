@@ -7,14 +7,14 @@ const router = Router();
  * @swagger
  * tags:
  *   name: Auth
- *   description: مدیریت ورود، خروج و ثبت نام کاربران
+ *   description: User registration and authentication management
  */
 
 /**
  * @swagger
  * /api/v1/auth/register:
  *   post:
- *     summary: ثبت نام کاربر جدید
+ *     summary: Register a new account
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -24,15 +24,15 @@ const router = Router();
  *             type: object
  *             required: [firstName, lastName, email, password, phoneNumber]
  *             properties:
- *               firstName: { type: string, example: "حمید" }
- *               lastName: { type: string, example: "احمدی" }
- *               email: { type: string, example: "hamid@example.com" }
- *               password: { type: string, example: "12345678" }
- *               phoneNumber: { type: string, example: "09121234567" }
+ *               firstName: { type: string, example: "John" }
+ *               lastName: { type: string, example: "Smith" }
+ *               email: { type: string, example: "john.smith@example.com" }
+ *               password: { type: string, example: "securePassword123" }
+ *               phoneNumber: { type: string, example: "+1234567890" }
  *               role: { type: string, enum: [client, agent, admin] }
  *     responses:
  *       201:
- *         description: موفق
+ *         description: User created successfully
  */
 router.post("/register", register);
 
@@ -40,7 +40,7 @@ router.post("/register", register);
  * @swagger
  * /api/v1/auth/login:
  *   post:
- *     summary: ورود به حساب کاربری
+ *     summary: Authenticate user and receive tokens
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -49,24 +49,25 @@ router.post("/register", register);
  *           schema:
  *             type: object
  *             properties:
- *               email: { type: string, example: "hamid@example.com" }
- *               password: { type: string, example: "12345678" }
+ *               email: { type: string, example: "john.smith@example.com" }
+ *               password: { type: string, example: "securePassword123" }
  *     responses:
  *       200:
- *         description: موفق
+ *         description: Login successful, tokens returned
  */
 router.post("/login", login);
+
 /**
  * @swagger
  * /api/v1/auth/refresh:
  *   post:
- *     summary: دریافت اکسس توکن جدید با استفاده از رفرش توکن (Refresh Token)
+ *     summary: Generate a new access token using a valid refresh token
  *     tags: [Auth]
  *     responses:
  *       200:
- *         description: اکسس توکن جدید با موفقیت صادر شد
+ *         description: Access token refreshed successfully
  *       401:
- *         description: رفرش توکن منقضی یا نامعتبر است
+ *         description: Refresh token is missing or expired
  */
 router.post("/refresh", refreshToken);
 
@@ -74,11 +75,11 @@ router.post("/refresh", refreshToken);
  * @swagger
  * /api/v1/auth/logout:
  *   post:
- *     summary: خروج
+ *     summary: Terminate session and clear authentication cookies
  *     tags: [Auth]
  *     responses:
  *       200:
- *         description: موفق
+ *         description: Successfully logged out
  */
 router.post("/logout", logout);
 
