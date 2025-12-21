@@ -45,7 +45,11 @@ export const getProperties = async (req: Request, res: Response, next: NextFunct
 
 export const getPropertyById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const property = await propertyService.getPropertyById(Number(req.params.id));
+    const id = Number(req.params.id);
+    const property = await propertyService.getPropertyById(id);
+
+    propertyService.incrementViews(id).catch((err) => console.error("Views increment error:", err));
+
     res.success("Property details retrieved", property);
   } catch (error) {
     next(error);

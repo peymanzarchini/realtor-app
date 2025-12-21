@@ -7,7 +7,8 @@ const options: swaggerJSDoc.Options = {
     info: {
       title: "Real Estate API Documentation",
       version: "1.0.0",
-      description: "مستندات کامل پروژه املاک - تمامی فیلدها و تست‌های API",
+      description:
+        "Comprehensive documentation for the Real Estate management platform - includes all endpoints, schemas, and API tests.",
     },
     servers: [
       {
@@ -32,22 +33,29 @@ const options: swaggerJSDoc.Options = {
               type: "string",
               minLength: 10,
               maxLength: 150,
-              example: "آپارتمان ۱۰۰ متری لوکس در زعفرانیه",
+              example: "Luxury 3-Bedroom Apartment in City Center",
             },
-            description: { type: "string", example: "دارای دید عالی، متریال درجه یک، لابی مجلل" },
-            price: { type: "number", description: "قیمت کل (برای فروش)", example: 12000000000 },
+            description: {
+              type: "string",
+              example: "Features high-end finishes, great views, and 24/7 security.",
+            },
+            price: {
+              type: "number",
+              description: "Total price for sale listings",
+              example: 450000,
+            },
             rentPrice: {
               type: "number",
-              description: "قیمت اجاره ماهانه (برای رهن/اجاره)",
-              example: 45000000,
+              description: "Monthly rent price for rent listings",
+              example: 2500,
             },
-            address: { type: "string", example: "تهران، زعفرانیه، خیابان اصلی" },
-            latitude: { type: "number", format: "float", example: 35.8 },
-            longitude: { type: "number", format: "float", example: 51.4 },
-            area: { type: "integer", description: "متراژ ملک به متر مربع", example: 100 },
-            bedrooms: { type: "integer", minimum: 0, example: 2 },
+            address: { type: "string", example: "123 Main St, Downtown, Metropolis" },
+            latitude: { type: "number", format: "float", example: 40.7128 },
+            longitude: { type: "number", format: "float", example: -74.006 },
+            area: { type: "integer", description: "Property area in square meters", example: 120 },
+            bedrooms: { type: "integer", minimum: 0, example: 3 },
             bathrooms: { type: "integer", minimum: 0, example: 2 },
-            yearBuilt: { type: "integer", minimum: 1300, example: 1402 },
+            yearBuilt: { type: "integer", minimum: 1900, example: 2022 },
             propertyType: {
               type: "string",
               enum: ["apartment", "villa", "office", "land", "shop"],

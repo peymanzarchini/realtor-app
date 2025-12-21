@@ -59,6 +59,6 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
 };
 
 export const logout = (req: Request, res: Response) => {
-  res.clearCookie("token");
+  res.clearCookie("refreshToken");
   res.success("Logout successful", 200);
 };
