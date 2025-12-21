@@ -27,11 +27,17 @@ export interface CreatePropertyDto {
 export type UpdatePropertyDto = Partial<CreatePropertyDto>;
 
 export interface PropertyFilters {
+  search?: string;
   propertyType?: string;
   listingType?: string;
   minPrice?: number;
   maxPrice?: number;
+  minArea?: number;
+  maxArea?: number;
   bedrooms?: number;
+  bathrooms?: number;
+  sortBy?: string;
+  sortOrder?: "ASC" | "DESC";
   page?: number;
   limit?: number;
 }

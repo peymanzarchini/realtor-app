@@ -13,6 +13,7 @@ import { swaggerSpec } from "./config/swagger.js";
 
 import morgan from "morgan";
 import path from "path";
+import { seedDefaultFeatures } from "./utils/seeder.js";
 
 const app = express();
 
@@ -50,6 +51,7 @@ const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
   await connectDB();
+  await seedDefaultFeatures();
   app.listen(PORT, () => {
     console.log(`🚀 Server is running on port ${PORT}`);
   });

@@ -5,7 +5,8 @@ import { AuthenticatedJwtPayload } from "../types/express.js";
 
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.header("Authorization")?.replace("Bearer ", "") || req.cookies?.token;
+    const token = req.header("Authorization")?.replace("Bearer ", "");
+
     if (!token) {
       return next(new HttpError("Access denied. No token provided.", 401));
     }

@@ -19,19 +19,22 @@ export const createProperty = async (req: Request, res: Response, next: NextFunc
 
 export const getProperties = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const rawFilters = req.query;
-
-    const page = rawFilters.page ? Number(rawFilters.page) : 1;
-    const limit = rawFilters.limit ? Number(rawFilters.limit) : 10;
+    const q = req.query;
 
     const filters: PropertyFilters = {
-      propertyType: rawFilters.propertyType as string,
-      listingType: rawFilters.listingType as string,
-      minPrice: rawFilters.minPrice ? Number(rawFilters.minPrice) : undefined,
-      maxPrice: rawFilters.maxPrice ? Number(rawFilters.maxPrice) : undefined,
-      bedrooms: rawFilters.bedrooms ? Number(rawFilters.bedrooms) : undefined,
-      page: page,
-      limit: limit,
+      search: q.search as string,
+      propertyType: q.propertyType as string,
+      listingType: q.listingType as string,
+      minPrice: q.minPrice ? Number(q.minPrice) : undefined,
+      maxPrice: q.maxPrice ? Number(q.maxPrice) : undefined,
+      minArea: q.minArea ? Number(q.minArea) : undefined,
+      maxArea: q.maxArea ? Number(q.maxArea) : undefined,
+      bedrooms: q.bedrooms ? Number(q.bedrooms) : undefined,
+      bathrooms: q.bathrooms ? Number(q.bathrooms) : undefined,
+      sortBy: (q.sortBy as string) || "createdAt",
+      sortOrder: (q.sortOrder as "ASC" | "DESC") || "DESC",
+      page: q.page ? Number(q.page) : 1,
+      limit: q.limit ? Number(q.limit) : 10,
     };
     const result = await propertyService.getAllProperties(filters);
     res.success("Properties list retrieved successfully", result, 200);
@@ -42,7 +45,11 @@ export const getProperties = async (req: Request, res: Response, next: NextFunct
 
 export const getPropertyById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const property = await propertyService.getPropertyById(Number(req.params.id));
+    const id = Number(req.params.id);
+    const property = await propertyService.getPropertyById(id);
+
+    propertyService.incrementViews(id).catch((err) => console.error("Views increment error:", err));
+
     res.success("Property details retrieved", property);
   } catch (error) {
     next(error);

@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { models, sequelize } from "../models/index.js";
 import { PropertyRepository } from "../repositories/property.repository.js";
+import { RatingRepository } from "../repositories/rating.repository.js";
 import {
   AddImageDto,
   CreatePropertyDto,
@@ -9,6 +11,7 @@ import {
 import { HttpError } from "../utils/httpError.js";
 
 const propertyRepository = new PropertyRepository();
+const ratingRepository = new RatingRepository();
 
 export class PropertyService {
   async createProperty(propertyData: CreatePropertyDto, agentId: number) {
@@ -47,7 +50,15 @@ export class PropertyService {
     if (!property) {
       throw new HttpError("Property not found", 404);
     }
-    return property;
+
+    // گرفتن میانگین امتیاز ایجنت این ملک
+    const ratingData = await ratingRepository.getAverageRating(property.agentId);
+
+    // اضافه کردن امتیاز به خروجی
+    const propertyJson = property.toJSON();
+    (propertyJson as any).agent.rating = ratingData;
+
+    return propertyJson;
   }
 
   async updateProperty(
@@ -88,5 +99,35 @@ export class PropertyService {
         { transaction: t }
       );
     });
+  }
+
+  async incrementViews(propertyId: number) {
+    return await models.Property.increment("viewsCount", {
+      where: { id: propertyId },
+    });
+  }
+
+  async toggleFavorite(userId: number, propertyId: number) {
+    const user = await models.User.findByPk(userId);
+    if (!user) throw new HttpError("User not found", 404);
+
+    // 1. Fetch the property to check the owner
+    const property = await this.getPropertyById(propertyId);
+
+    // 2. Business Logic: Prevent favoriting own listing
+    if (property.agentId === userId) {
+      throw new HttpError("You cannot add your own property to favorites", 400);
+    }
+
+    // 3. Continue with toggle logic
+    const hasFavorite = await (user as any).hasFavoriteProperty(propertyId);
+
+    if (hasFavorite) {
+      await (user as any).removeFavoriteProperty(propertyId);
+      return { isFavorite: false };
+    } else {
+      await (user as any).addFavoriteProperty(propertyId);
+      return { isFavorite: true };
+    }
   }
 }
